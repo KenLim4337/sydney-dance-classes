@@ -4,7 +4,8 @@
 
 
 /*TODO Make API calls*/
-var xhr = new XMLHttpRequest(); 
+
+/*var xhr = new XMLHttpRequest(); 
 
 xhr.open('GET', 'http://api.mindbodyonline.com/public/v6/class/classes');
 
@@ -21,7 +22,7 @@ xhr.onload = function() {
   };
 
   
-xhr.send();
+xhr.send();*/
 
 /*TODO Prune results*/
 
@@ -32,7 +33,7 @@ xhr.send();
 /*TODO Scraper for one page*/
 
 
-var xhr = new XMLHttpRequest(); 
+/*var xhr = new XMLHttpRequest(); */
 
 //Widget versions 0.1 and 1, crossover dance is 0.1
 
@@ -42,6 +43,8 @@ var xhr = new XMLHttpRequest();
 
 //V0.1:https://widgets.mindbodyonline.com/widgets/schedules/9b4010856f8.json?options%5Bstart_date%5D=2020-05-21&_=1584019974227
 
+
+/*
 xhr.open('GET', 'https://widgets.mindbodyonline.com/widgets/schedules/9b4010856f8.json?options%5Bstart_date%5D=2020-05-21&_=1584019974227');
 
 xhr.onload = function() {
@@ -55,3 +58,28 @@ xhr.onload = function() {
 
   
 xhr.send();
+
+*/
+
+//Modules
+const rp = require('request-promise');
+const $ = require('cheerio');
+
+//Getting date range for http requests
+const startDate = new Date();
+
+var endDate = new Date(startDate);
+endDate.setDate(endDate.getDate() + 7);
+
+var dateQuery = '?options%5Bstart_date%5D=2020-05-21&%5Bend_date%5D=2020-05-30';
+
+var url = 'https://widgets.mindbodyonline.com/widgets/schedules/9b4010856f8.json?options%5Bstart_date%5D=2020-05-21';
+
+rp(url)
+  .then(function(html){
+    //success!
+    console.log(html)
+  })
+  .catch(function(err){
+    //handle error
+  });
