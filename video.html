@@ -16,6 +16,7 @@ https://stackoverflow.com/questions/17614660/change-html5-video-s-quality-from-j
 
 https://app.steezy.co/free-classes
 
+william.chung96@outlook.com
 
   <source src="devstories.webm" type='video/webm;codecs="vp8, vorbis"'/>
   <source src="devstories.mp4" type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"'/>
@@ -59,22 +60,140 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
           Your browser does not support the video tag.
       </video>
     -->
+    <style>
+      #videoWrapper {
+  max-width: 100%;
+}
+
+#videoWrapper video {
+  max-width: 1080px;
+  height: auto;
+  width: 100%;
+  margin: auto;
+}
+
+#videoWrapper .controlWrapper {
+  max-width: 1080px;
+  width: 100%;
+  margin: auto;
+}
+
+#videoWrapper .controlWrapper #progressBar {
+  width: 100%;
+  height: 10px;
+  background-color: rgba(12, 12, 12, 0.1);
+  -webkit-transition: 0.3s ease all;
+  transition: 0.3s ease all;
+  position: relative;
+}
+
+#videoWrapper .controlWrapper #progressBar:hover {
+  height: 15px;
+  -webkit-transition: 0.3s ease all;
+  transition: 0.3s ease all;
+  background-color: rgba(12, 12, 12, 0.2);
+}
+
+#videoWrapper .controlWrapper #progressBar .active {
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 100px;
+  left: 0;
+  top: 0;
+  background-color: #FF7714;
+  -webkit-transition: 0.3s ease all;
+  transition: 0.3s ease all;
+}
+
+#videoWrapper .controlWrapper #progressBar .dot {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 5px #ddd solid;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: 94px;
+  z-index: 2;
+  background-color: #0eb290;
+  -webkit-transition: 0.3s ease all;
+  transition: 0.3s ease all;
+  -webkit-box-shadow: 0px 0px 6px #ddd;
+          box-shadow: 0px 0px 6px #ddd;
+}
+
+#videoWrapper .controlWrapper #progressBar .buffered {
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 100px;
+  left: 100px;
+  background-color: rgba(12, 12, 12, 0.4);
+}
+
+#videoWrapper .controlWrapper #nonProg {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #111;
+}
+
+#videoWrapper .controlWrapper #nonProg button {
+  font-size: 10px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  color: #FF7714;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust {
+  display: inline-block;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust input {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  -webkit-transition: 0.3s ease all;
+  transition: 0.3s ease all;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust:hover input {
+  width: 100px;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust select {
+  display: inline-block;
+  width: 100px;
+}
+/*# sourceMappingURL=video.css.map */
+
+    </style>
 
     <script type="text/javascript">
-      //Data Struct for a video
- var videoData = {
+//Data Struct for a video
+var videoData = {
     id: '000',
     title: 'Test Video 101',
     //VP8, H264, OGG Codec
     links: {
         'high': {
             // 'wrapper format':['link','codec']
-            'mp4': ['E:/Users/admin/Documents/sydney-dance-classes/examplevid/example.mp4', ''],
+            'mp4': ['https://demo-vid-dance.s3-ap-southeast-2.amazonaws.com/Mitch+Online+-+BTS+ON+-+480.mp4', ''],
             //'webm': ['', ''],
         },
         'low': {
             // 'wrapper format':['link','codec']
-            'mp4': ['E:/Users/admin/Documents/sydney-dance-classes/examplevid/example.mp4', ''],
+            'mp4': ['https://demo-vid-dance.s3-ap-southeast-2.amazonaws.com/Mitch+Online+-+BTS+ON+-+480.mp4', ''],
             //'webm': ['', ''],
         }
     },
@@ -158,36 +277,48 @@ function Video(id, title, links, sections, containerId) {
     controlNode.classList.add('controlWrapper');
     controlNode.classList.add('controlWrapper');
 
-    controlNode.innerHTML = `
-    <button id="playBtn">Play</button>
-
-    <progress id='progress-bar' min='0' max='100' value='0'>0% played</progress>
+    controlNode.innerHTML = `    
     
-    <button id="forward">FF</button>
-    <button id="backward">RW</button>
+    <div id='progressBar'> <span class="active"></span> <span class="dot"></span> <span class="buffered"></span></div>
 
-    <button id="mute">Mute</button>
-    <input type="range" min="0" max="1" value="0.4" step="0.01" id="volumeSlider">
+    <div id='nonProg'>
 
-    <button id="mirror">Mirror</button>
+      <div class="leftClust">
+        <button id="playBtn">Play</button>
+        <button id="backward">RW</button>
+        <button id="forward">FF</button>
+        
+        <button id="mirror">Mirror</button>
 
-    <select name="Speed" id="speed">
-      <option value="0.25">0.25</option>
-      <option value="0.5">0.5</option>
-      <option value="1" selected="selected">1</option>
-      <option value="1.5">1.5</option>
-      <option value="2">2</option>
-      <option value="2.5">2.5</option>
-    </select>
+        <div class="volumeClust">
+          <button id="mute">Mute</button>
+          <input type="range" min="0" max="1" value="0.4" step="0.01" id="volumeSlider">
+        </div>
+      </div>
 
+      <div class="rightClust">
+
+        <select name="Speed" id="speed">
+          <option value="0.25">0.25</option>
+          <option value="0.5">0.5</option>
+          <option value="1" selected="selected">1</option>
+          <option value="1.5">1.5</option>
+          <option value="2">2</option>
+          <option value="2.5">2.5</option>
+        </select>
+
+
+        <select name="Quality" id="quality">
+          <option value="auto" selected="selected">Auto</option>
+          <option value="high">High</option>
+          <option value="low">Low</option>
+        </select>
+
+        <button id="fullscreen">Fullscreen</button>
+      </div>
+     
+    </div>
     
-    <select name="Quality" id="quality">
-      <option value="auto" selected="selected">Auto</option>
-      <option value="high">High</option>
-      <option value="low">Low</option>
-    </select>
-
-    <button id="fullscreen">Fullscreen</button>
     `;
 
     this.container.appendChild(controlNode);
@@ -260,36 +391,61 @@ function eventHelper(targetVideo) {
 
     var target = targetVideo;
 
-    targetVideo.controls.querySelector('#playBtn').addEventListener('click', function(){
+    target.controls.querySelector('#playBtn').addEventListener('click', function(){
       target.playToggle();
     });
 
-    targetVideo.controls.querySelector('#forward').addEventListener('click', function(){
+    var clicked = false;
+    target.controls.querySelector('#progressBar').addEventListener('mousedown',function(e){
+      console.log(e);
+      clicked = true;
+    });
+
+    target.controls.querySelector('#progressBar').addEventListener('mousemove',function(e){
+      if(clicked) {
+      console.log(e);
+      }
+    });
+
+    target.controls.querySelector('#progressBar').addEventListener('mouseup',function(e){
+      var percentage = 1 - ((target.controls.querySelector('#progressBar').offsetWidth - e.offsetX) / target.controls.querySelector('#progressBar').offsetWidth);
+
+      target.seek(percentage*target.player.duration)
+      clicked = false;
+    });
+
+
+    target.controls.querySelector('#forward').addEventListener('click', function(){
         target.increment('ff');
       });
 
-    targetVideo.controls.querySelector('#backward').addEventListener('click', function(){
+    target.controls.querySelector('#backward').addEventListener('click', function(){
         target.increment('rw');
     });
 
-    targetVideo.controls.querySelector('#mute').addEventListener('click', function(){
+    target.controls.querySelector('#mute').addEventListener('click', function(){
       target.muteToggle();
     });
+    
+    target.controls.querySelector('#volumeSlider').addEventListener('change', function(){
+        var newVolume = target.controls.querySelector('#volumeSlider').value;
+        
+        target.volumeAdjust(newVolume);
+    });
 
-    targetVideo.controls.querySelector('#mirror').addEventListener('click', function(){
+    target.controls.querySelector('#mirror').addEventListener('click', function(){
       target.mirrorToggle();
     });
 
-    targetVideo.controls.querySelector('#speed').addEventListener('change', function(){
+    target.controls.querySelector('#speed').addEventListener('change', function(){
       var newSpeed = target.controls.querySelector('#speed').value;
       target.speedAdjust(newSpeed);
     });
 
-    targetVideo.controls.querySelector('#fullscreen').addEventListener('click', function(){
+    target.controls.querySelector('#fullscreen').addEventListener('click', function(){
       target.fullScreenToggle();
     });
 }
-
 
     </script>
   </div>
