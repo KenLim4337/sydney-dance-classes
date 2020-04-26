@@ -1,65 +1,249 @@
+$orange: #FF7714;
+
 #videoWrapper {
-    max-width: 100%;
+    max-width: 1080px;
+    width: 100%;
+    margin: auto;
+    position: relative;
+    box-sizing: border-box;
+
+    * {
+        box-sizing: border-box;
+    }
 
     video {
-        max-width: 1080px;
         height: auto;
         width: 100%;
         margin: auto;
+        display: block;
+    }
+
+    #vidOverlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(0,0,0,0.5);
+        top: 0;
+        left: 0;
+        z-index: 10;
+    }
+    
+    .overlayPlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 100px;
+        height: 100px;
+        background: $orange;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        width: 140px;
+        height: 140px;
+        transition: 0.2s linear all;
+        z-index: 11;
+
+        #playIcon {
+            fill: #fff;
+            margin-left: 7px;
+            transition: 0.2s linear all;
+        }
+
+        &:hover {
+            background: #fff;
+            
+            #playIcon {
+                fill: $orange;
+                margin-left: 7px;
+            }
+        }
+    }
+
+    .overlayLoading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 60px;
+        margin: auto;
+        width: 180px;
+        height: 180px;
+        padding: 10px;
+        z-index: 11;
+        display: none;
+        background: rgba(0,0,0,0.2);
+        border-radius: 25px;
+
+        img {
+            width: 200px;
+            height: 200px;
+            margin: -20px;
+            z-index: 12;
+        }
     }
 
     .controlWrapper {
         max-width: 1080px;
         width: 100%;
         margin: auto;
-        
+
         #progressBar {
             width: 100%;
-            height: 10px;
-            background-color: rgba(12, 12, 12, 0.1);
-            transition: 0.3s ease all;
+            cursor: pointer;
+            height: 30px;
+            padding-top: 10px;
+            margin-top: -30px;
+            background: none;
             position: relative;
+            box-sizing: border-box;
+            
+            .progBG {
+                width: 100%;
+                height: 20px;
+                background-color: rgba(12, 12, 12, 0.5);
+                transition: 0.2s linear all;
+                position: absolute;
+                left: 0;
+                top: 10px;
+            }
 
             &:hover {
-                height: 15px;
-                transition: 0.3s ease all;
-                background-color: rgba(12, 12, 12, 0.2);
+                .progBG {
+                    height: 30px;
+                    top: 0;
+                    transition: 0.2s linear all;
+                    background-color: rgba(12, 12, 12, 0.7);
+                }
+
+                .active, .buffered {
+                    height: 30px;
+                    top: 0;
+                }
+
+                .dot {
+                    width: 32px;
+                    height: 32px;
+                    top: -1px;
+                }
             }
 
             .active {
-                position:absolute;
+                position: absolute;
                 display: block;
-                height: 100%;
-                width: 100px;
+                height: 20px;
+                width: 0;
                 left: 0;
-                top: 0;
-                background-color:#FF7714;
-                transition: 0.3s ease all;
+                top: 10px;
+                background-color: $orange;
+                transition: 0.2s linear;
+                z-index: 2;
+                transition-property: height,top;
             }
 
-            .dot{
+            .dot {
                 position: absolute;
-                width: 15px;
-                height: 15px;
+                width: 18px;
+                height: 18px;
                 border-radius: 50%;
-                border: 5px #ddd solid;
-                top: 0;
+                border: 0px #fff solid;
+                padding: 4px;
+                top: 10px;
                 bottom: 0;
                 margin: auto;
-                left: 94px;
-                z-index: 2;
-                background-color: #0eb290;
-                transition: 0.3s ease all;
-                box-shadow: 0px 0px 6px #ddd;
+                left: 0;
+                z-index: 3;
+                background-color: $orange;
+                transition: 0.2s linear;
+                transition-property: width,height,border,padding,box-shadow,top;
+
+                &:hover {
+                    padding: 0;
+                    border: 12px #fff solid;
+                    box-shadow: 0px 0px 6px #ddd;
+                    width: 24px;
+                    height: 24px;
+                }
             }
 
             .buffered {
-                position:absolute;
+                position: absolute;
                 display: block;
-                height: 100%;
+                height: 20px;
                 width: 100px;
                 left: 100px;
-                background-color: rgba(12, 12, 12, 0.4);
+                top: 10px;
+                background-color: rgba(255, 255, 255, 0.4);
+                transition: 0.2s linear all;
+            }
+
+            &.changing {
+                .progBG {
+                    height: 30px;
+                    top: 0;
+                    transition: 0.2s linear all;
+                    background-color: rgba(12, 12, 12, 0.7);
+                }
+
+                .active, .buffered {
+                    height: 30px;
+                    top: 0;
+                }
+
+                .dot {
+                    padding: 0;
+                    border: 12px #fff solid;
+                    box-shadow: 0px 0px 6px #ddd;
+                    width: 24px;
+                    height: 24px;
+                    top: -1px;
+                }
+            }
+
+            .vidSection {
+                position: absolute;
+                display: block;
+                width: 14px;
+                height: 100%;
+                top: 0;
+                margin-left: -7px;
+                background: white;
+
+                .sectionWrap {
+                    display: block;
+                    position: relative;
+                    width: auto;
+                    max-width: none;
+
+                    .bookmarkContent {
+                        display: block;
+                        position: absolute;
+                        background: #111;
+                        color: white;
+                        width: 100px;
+                        text-align: center;
+                        padding: 10px;
+                        border-radius: 5px;
+                        bottom: calc(100% + 10px);
+                        left: -43px;
+                        opacity: 0;
+                        pointer-events: none;
+                    }
+                }
+
+                &:hover {
+                    .sectionWrap {
+
+                        .bookmarkContent {
+                            opacity: 1;
+                            pointer-events: all;;
+                        }
+                    }
+                }
             }
         }
 
@@ -68,6 +252,8 @@
             justify-content: space-between;
             align-items: center;
             background: #111;
+            padding: 10px 25px;
+            height: 60px;
 
             button {
                 font-size: 10px;
@@ -75,30 +261,213 @@
                 height: 40px;
                 border: none;
                 background: none;
-                color: #FF7714;
+                color: $orange;
+                cursor: pointer;
+                padding: 5px 15px;
+                outline: none;
+                display: inline-block;
+                vertical-align: middle;
+                
+
+                &:hover {
+                    svg {
+                        fill: $orange;
+                        stroke: $orange;
+                    }
+                }
+            }
+
+            svg {
+                fill: #fff;
+                stroke: #fff;
+                transition: 0.2s linear all;
+                max-height: 100%;
+                width: auto;
             }
 
             .leftClust {
-                .volumeClust {
-                    display: inline-block;
-                }
-                
-                input { 
-                    display: inline-block;
-                    vertical-align: middle;
-                    width: 0;
-                    transition: 0.3s ease all;
+                display: flex;
+                align-items: center;
+                .textTimer {
+                    color: #fff;
+                    padding: 0 15px 0 0;
+
+                    .progTime.changing {
+                        color: $orange;
+                    }
                 }
 
-                &:hover input {
-                    width: 100px;
+                #playBtn {
+                    #pauseIcon {
+                        display: none;
+                    }
+
+                    &.paused {
+                        #pauseIcon {
+                            display: block;
+                        }
+
+                        #playIcon {
+                            display: none;
+                        }
+                    }
+                }
+
+                #backward {
+                    .rwArrw {
+                        transform-origin: 50% 50%;
+                        transition: 0.15s linear all;
+                    }
+
+                    &:hover {
+                        .rwArrw {
+                            transform: rotate(-180deg);
+                        }
+                    }
+                }
+                
+                #forward {
+                    .ffArrw {
+                        transform-origin: 50% 50%;
+                        transition: 0.15s linear all;
+                    }
+
+                    &:hover {
+                        .ffArrw {
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+
+                #mirror {
+                    transition: 0.2s ease color;
+                    color: #fff;
+                    width: 80px;
+
+                    &:after {
+                        content: ': On';
+                        display: inline;
+                    }
+
+                    &:hover{
+                        color: $orange;
+                    }
+
+                    &.mirrored {
+                        &:after {
+                            content: ': Off';
+                        }
+                    }
+                }
+
+                .volumeClust {
+                    display: inline-block;
+                    vertical-align: middle;
+                    vertical-align: top;
+
+                    #mute {
+                        position: relative;
+                        margin-right: 5px;
+                        .loVol, .mdVol, .hiVol {
+                            display: none;
+                        }
+
+                        &.low {
+                            .loVol {
+                                display: block;
+                            }
+                        }
+                        
+                        &.mid {
+                            .loVol, .mdVol {
+                                display: block;
+                            }
+                        }
+
+                        &.high {
+                            .loVol, .mdVol, .hiVol {
+                                display: block;
+                            }
+                        }
+
+                        &.muted {
+                            .loVol, .mdVol, .hiVol {
+                                display: none !important;
+                            }
+
+                            &:before {
+                                display: block;
+                            }
+                            
+                            &:after {
+                                display: block;   
+                            }
+                        }
+
+                        &:before {
+                            content: '';
+                            display: none;
+                            width: 12px;
+                            height: 3px;
+                            background: #fff;
+                            position: absolute;
+                            right: -3px;
+                            top: calc(50% - 1px);
+                            transform: rotate(45deg); 
+                        }
+                        
+                        &:after {
+                            content: '';
+                            display: none;
+                            width: 12px;
+                            height: 3px;
+                            background: #fff;
+                            position: absolute;
+                            right: -3px;
+                            top: calc(50% - 1px);
+                            transform: rotate(-45deg);    
+                        }
+                    }
+
+                    &:hover {
+                        svg {
+                            fill: $orange;
+                            stroke: $orange;
+                        }
+                            
+                        #mute {
+                            &:before {
+                                background: $orange;
+                            }
+                            
+                            &:after {
+                                background: $orange;
+                            }
+                        }
+                    }
+                    
+                    input {
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 0;
+                        transition: 0.2s linear all;
+                        opacity: 0;
+                        margin-top: 5px;
+                    }
+
+                    &:hover input {
+                        width: 100px;
+                        opacity: 1;
+                    }
                 }
             }
 
             .rightClust {
-                select{
+                select {
                     display: inline-block;
+                    vertical-align: middle;
                     width: 100px;
+                    cursor: pointer;
                 }
             }
         }

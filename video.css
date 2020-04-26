@@ -1,12 +1,99 @@
 #videoWrapper {
-  max-width: 100%;
+  max-width: 1080px;
+  width: 100%;
+  margin: auto;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#videoWrapper * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 #videoWrapper video {
-  max-width: 1080px;
   height: auto;
   width: 100%;
   margin: auto;
+  display: block;
+}
+
+#videoWrapper #vidOverlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+#videoWrapper .overlayPlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  background: #FF7714;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  width: 140px;
+  height: 140px;
+  -webkit-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+  z-index: 11;
+}
+
+#videoWrapper .overlayPlay #playIcon {
+  fill: #fff;
+  margin-left: 7px;
+  -webkit-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+}
+
+#videoWrapper .overlayPlay:hover {
+  background: #fff;
+}
+
+#videoWrapper .overlayPlay:hover #playIcon {
+  fill: #FF7714;
+  margin-left: 7px;
+}
+
+#videoWrapper .overlayLoading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  margin: auto;
+  width: 180px;
+  height: 180px;
+  padding: 10px;
+  z-index: 11;
+  display: none;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+}
+
+#videoWrapper .overlayLoading img {
+  width: 200px;
+  height: 200px;
+  margin: -20px;
+  z-index: 12;
 }
 
 #videoWrapper .controlWrapper {
@@ -17,57 +104,161 @@
 
 #videoWrapper .controlWrapper #progressBar {
   width: 100%;
-  height: 10px;
-  background-color: rgba(12, 12, 12, 0.1);
-  -webkit-transition: 0.3s ease all;
-  transition: 0.3s ease all;
+  cursor: pointer;
+  height: 30px;
+  padding-top: 10px;
+  margin-top: -30px;
+  background: none;
   position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
-#videoWrapper .controlWrapper #progressBar:hover {
-  height: 15px;
-  -webkit-transition: 0.3s ease all;
-  transition: 0.3s ease all;
-  background-color: rgba(12, 12, 12, 0.2);
+#videoWrapper .controlWrapper #progressBar .progBG {
+  width: 100%;
+  height: 20px;
+  background-color: rgba(12, 12, 12, 0.5);
+  -webkit-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+  position: absolute;
+  left: 0;
+  top: 10px;
+}
+
+#videoWrapper .controlWrapper #progressBar:hover .progBG {
+  height: 30px;
+  top: 0;
+  -webkit-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+  background-color: rgba(12, 12, 12, 0.7);
+}
+
+#videoWrapper .controlWrapper #progressBar:hover .active, #videoWrapper .controlWrapper #progressBar:hover .buffered {
+  height: 30px;
+  top: 0;
+}
+
+#videoWrapper .controlWrapper #progressBar:hover .dot {
+  width: 32px;
+  height: 32px;
+  top: -1px;
 }
 
 #videoWrapper .controlWrapper #progressBar .active {
   position: absolute;
   display: block;
-  height: 100%;
-  width: 100px;
+  height: 20px;
+  width: 0;
   left: 0;
-  top: 0;
+  top: 10px;
   background-color: #FF7714;
-  -webkit-transition: 0.3s ease all;
-  transition: 0.3s ease all;
+  -webkit-transition: 0.2s linear;
+  transition: 0.2s linear;
+  z-index: 2;
+  -webkit-transition-property: height,top;
+  transition-property: height,top;
 }
 
 #videoWrapper .controlWrapper #progressBar .dot {
   position: absolute;
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  border: 5px #ddd solid;
-  top: 0;
+  border: 0px #fff solid;
+  padding: 4px;
+  top: 10px;
   bottom: 0;
   margin: auto;
-  left: 94px;
-  z-index: 2;
-  background-color: #0eb290;
-  -webkit-transition: 0.3s ease all;
-  transition: 0.3s ease all;
+  left: 0;
+  z-index: 3;
+  background-color: #FF7714;
+  -webkit-transition: 0.2s linear;
+  transition: 0.2s linear;
+  -webkit-transition-property: width,height,border,padding,top,-webkit-box-shadow;
+  transition-property: width,height,border,padding,top,-webkit-box-shadow;
+  transition-property: width,height,border,padding,box-shadow,top;
+  transition-property: width,height,border,padding,box-shadow,top,-webkit-box-shadow;
+}
+
+#videoWrapper .controlWrapper #progressBar .dot:hover {
+  padding: 0;
+  border: 12px #fff solid;
   -webkit-box-shadow: 0px 0px 6px #ddd;
           box-shadow: 0px 0px 6px #ddd;
+  width: 24px;
+  height: 24px;
 }
 
 #videoWrapper .controlWrapper #progressBar .buffered {
   position: absolute;
   display: block;
-  height: 100%;
+  height: 20px;
   width: 100px;
   left: 100px;
-  background-color: rgba(12, 12, 12, 0.4);
+  top: 10px;
+  background-color: rgba(255, 255, 255, 0.4);
+  -webkit-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+}
+
+#videoWrapper .controlWrapper #progressBar.changing .progBG {
+  height: 30px;
+  top: 0;
+  -webkit-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+  background-color: rgba(12, 12, 12, 0.7);
+}
+
+#videoWrapper .controlWrapper #progressBar.changing .active, #videoWrapper .controlWrapper #progressBar.changing .buffered {
+  height: 30px;
+  top: 0;
+}
+
+#videoWrapper .controlWrapper #progressBar.changing .dot {
+  padding: 0;
+  border: 12px #fff solid;
+  -webkit-box-shadow: 0px 0px 6px #ddd;
+          box-shadow: 0px 0px 6px #ddd;
+  width: 24px;
+  height: 24px;
+  top: -1px;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSection {
+  position: absolute;
+  display: block;
+  width: 14px;
+  height: 100%;
+  top: 0;
+  margin-left: -7px;
+  background: white;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSection .sectionWrap {
+  display: block;
+  position: relative;
+  width: auto;
+  max-width: none;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSection .sectionWrap .bookmarkContent {
+  display: block;
+  position: absolute;
+  background: #111;
+  color: white;
+  width: 100px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  bottom: calc(100% + 10px);
+  left: -43px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSection:hover .sectionWrap .bookmarkContent {
+  opacity: 1;
+  pointer-events: all;
 }
 
 #videoWrapper .controlWrapper #nonProg {
@@ -81,6 +272,8 @@
       -ms-flex-align: center;
           align-items: center;
   background: #111;
+  padding: 10px 25px;
+  height: 60px;
 }
 
 #videoWrapper .controlWrapper #nonProg button {
@@ -90,26 +283,198 @@
   border: none;
   background: none;
   color: #FF7714;
+  cursor: pointer;
+  padding: 5px 15px;
+  outline: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#videoWrapper .controlWrapper #nonProg button:hover svg {
+  fill: #FF7714;
+  stroke: #FF7714;
+}
+
+#videoWrapper .controlWrapper #nonProg svg {
+  fill: #fff;
+  stroke: #fff;
+  -webkit-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+  max-height: 100%;
+  width: auto;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .textTimer {
+  color: #fff;
+  padding: 0 15px 0 0;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .textTimer .progTime.changing {
+  color: #FF7714;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #playBtn #pauseIcon {
+  display: none;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #playBtn.paused #pauseIcon {
+  display: block;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #playBtn.paused #playIcon {
+  display: none;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #backward .rwArrw {
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  -webkit-transition: 0.15s linear all;
+  transition: 0.15s linear all;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #backward:hover .rwArrw {
+  -webkit-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #forward .ffArrw {
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  -webkit-transition: 0.15s linear all;
+  transition: 0.15s linear all;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #forward:hover .ffArrw {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #mirror {
+  -webkit-transition: 0.2s ease color;
+  transition: 0.2s ease color;
+  color: #fff;
+  width: 80px;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #mirror:after {
+  content: ': On';
+  display: inline;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #mirror:hover {
+  color: #FF7714;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust #mirror.mirrored:after {
+  content: ': Off';
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust {
   display: inline-block;
+  vertical-align: middle;
+  vertical-align: top;
 }
 
-#videoWrapper .controlWrapper #nonProg .leftClust input {
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute {
+  position: relative;
+  margin-right: 5px;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .loVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .mdVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .hiVol {
+  display: none;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.low .loVol {
+  display: block;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.mid .loVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.mid .mdVol {
+  display: block;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .loVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .mdVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .hiVol {
+  display: block;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .loVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .mdVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .hiVol {
+  display: none !important;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted:before {
+  display: block;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted:after {
+  display: block;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute:before {
+  content: '';
+  display: none;
+  width: 12px;
+  height: 3px;
+  background: #fff;
+  position: absolute;
+  right: -3px;
+  top: calc(50% - 1px);
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute:after {
+  content: '';
+  display: none;
+  width: 12px;
+  height: 3px;
+  background: #fff;
+  position: absolute;
+  right: -3px;
+  top: calc(50% - 1px);
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust:hover svg {
+  fill: #FF7714;
+  stroke: #FF7714;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust:hover #mute:before {
+  background: #FF7714;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust:hover #mute:after {
+  background: #FF7714;
+}
+
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust input {
   display: inline-block;
   vertical-align: middle;
   width: 0;
-  -webkit-transition: 0.3s ease all;
-  transition: 0.3s ease all;
+  -webkit-transition: 0.2s linear all;
+  transition: 0.2s linear all;
+  opacity: 0;
+  margin-top: 5px;
 }
 
-#videoWrapper .controlWrapper #nonProg .leftClust:hover input {
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust:hover input {
   width: 100px;
+  opacity: 1;
 }
 
 #videoWrapper .controlWrapper #nonProg .rightClust select {
   display: inline-block;
+  vertical-align: middle;
   width: 100px;
+  cursor: pointer;
 }
 /*# sourceMappingURL=video.css.map */

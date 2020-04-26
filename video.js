@@ -102,7 +102,29 @@ function Video(id, title, links, sections, containerId) {
   <div id='nonProg'>
 
     <div class="leftClust">
-      <button id="playBtn">Play</button>
+      <div class="textTimer"><span class="progTime"></span>/<span class="totalTime"></span></div>
+
+      <button id="playBtn">
+      
+      <svg version="1.0" id="playIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+   <g>
+     <path d="M4.731,4.381c0-1.1,0.786-1.562,1.747-1.025l37.044,20.669c0.96,0.536,0.96,1.413,0,1.949L6.478,46.645
+       c-0.96,0.536-1.747,0.074-1.747-1.025V4.381z"/>
+   </g>
+   </svg>
+
+   <svg version="1.0" id="pauseIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+<g>
+	<path d="M5.572,45.434c0,1.1,0.9,2,2,2h9.46c1.1,0,2-0.9,2-2V4.566c0-1.1-0.9-2-2-2h-9.46c-1.1,0-2,0.9-2,2V45.434z"/>
+</g>
+<g>
+	<path d="M30.968,45.434c0,1.1,0.9,2,2,2h9.46c1.1,0,2-0.9,2-2V4.567c0-1.1-0.9-2-2-2h-9.46c-1.1,0-2,0.9-2,2V45.434z"/>
+</g>
+</svg>
+   
+   </button>
       <button id="backward">RW</button>
       <button id="forward">FF</button>
       
@@ -147,8 +169,10 @@ function Video(id, title, links, sections, containerId) {
       // If the mediaPlayer is currently paused or has ended
       if (this.player.paused || this.player.ended) {
           this.player.play();
+          this.controls.querySelector('#playBtn').classList.remove('paused');
       } else {
           this.player.pause();
+          this.controls.querySelector('#playBtn').classList.add('paused');
       }
   };
 
@@ -182,14 +206,26 @@ function Video(id, title, links, sections, containerId) {
   this.volumeAdjust = function (value) {
       this.player.muted = false;
       this.player.volume = value;
+
+      this.controls.querySelector('#mute').classList.remove('low','mid','high');
+
+      if(value < 0.33) {
+        this.controls.querySelector('#mute').classList.add('low');
+      } else if (value < 0.66) {
+        this.controls.querySelector('#mute').classList.add('mid');
+      } else {
+        this.controls.querySelector('#mute').classList.add('high');
+      }
   };
 
   this.muteToggle = function (direction, time) {
     //Toggle volume mute
     if(this.player.muted) {
       this.player.muted = false;
+      this.controls.querySelector('#mute').classList.remove('muted');
     } else {
       this.player.muted = true;
+      this.controls.querySelector('#mute').classList.add('muted');
     }
   };
 
@@ -208,6 +244,11 @@ function eventHelper(targetVideo) {
   //ios click events:  http://www.shdon.com/blog/2013/06/07/why-your-click-events-don-t-work-on-mobile-safari
 
   var target = targetVideo;
+
+  target.controls.querySelector('.overlayPlay').addEventListener('click', function() {
+    target.controls.querySelector('#vidOverlay').style.display = 'none';
+    target.playToggle();
+  });
 
   target.controls.querySelector('#playBtn').addEventListener('click', function(){
     target.playToggle();
