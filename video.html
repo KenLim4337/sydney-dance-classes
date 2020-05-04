@@ -47,6 +47,7 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.0.0/screenfull.min.js">
   </script>
 </head>
@@ -62,6 +63,7 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
       </video>
     -->
     <style>
+      
     </style>
 
     <script type="text/javascript">
@@ -89,12 +91,24 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
         },
         sections: {
           1: {
-            'title': 'Chorus',
-            'time': 120,
+            'time': 0,
+
+            1: {
+              'title': 'Intro',
+              'time': 10,
+            },
+            2: {
+              'title': 'Chorus',
+              'time': 120,
+            }
           },
           2: {
-            'title': 'Jazz Hands',
-            'time': 180,
+            'time': 300,
+
+            1: {
+              'title': 'Jazz Hands',
+              'time': 340,
+            }
           },
         }
       }
@@ -105,10 +119,6 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
       document.addEventListener("DOMContentLoaded", function () {
         videoPlayers.push(new Video(videoData.id, videoData.title, videoData.links, videoData.sections,
           'videoWrapper'));
-
-        setTimeout(function () {
-          eventHelper(videoPlayers[0]);
-        }, 100)
       }, false);
 
       //Video Constructor
@@ -157,6 +167,7 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
         controlNode.classList.add('controlWrapper');
 
         controlNode.innerHTML = `    
+        <div class="sectionMenu"> <div class="sectBtn">Show Sections</div> <ul class="sectOps"></ul></div>
         <div id="vidOverlay"></div>
         <div class="overlayPlay">
 
@@ -172,7 +183,7 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
 
         <div class="overlayLoading"><img src="https://danceclassesinsydney.com.au/wp-content/uploads/2020/04/Spinner-1s-200px.gif" alt="loading gif"></div>
 
-<div id='progressBar'> <span class="progBG"></span> <span class="active"></span> <span class="dot"></span><div class="bufferWrap"></div></div>
+<div id='progressBar'> <span class="progBG"></span> <span class="active"></span> <span class="dot"></span><div class="bufferWrap"></div><div class="vidSections"></div></div>
 
 <div id='nonProg'>
 
@@ -265,6 +276,19 @@ C14.344,6.18,6,14.609,6,25c0,10.493,8.506,19,19,19c10.494,0,19-8.507,19-19H42z" 
       <option value="2.5">2.5x</option>
     </select>
 
+    <div class="speedClone">
+      <div class="selectLabel">Speed</div>
+      <div class="selectLabelVal">1x</div>
+      <ul class="options">
+        <li val="0.25">0.25x</li>
+        <li val="0.5">0.5x</li>
+        <li val="1" class="selected">1x</li>
+        <li val="1.5">1.5x</li>
+        <li val="2">2x</li>
+        <li val="2.5">2.5x</li>
+      </ul>
+    </div>
+
 
     <select name="Quality" id="quality" title="Adjust Video Quality">
       <option value="auto" selected="selected">Auto</option>
@@ -272,6 +296,17 @@ C14.344,6.18,6,14.609,6,25c0,10.493,8.506,19,19,19c10.494,0,19-8.507,19-19H42z" 
       <option value="720">720p</option>
       <option value="480">480p</option>
     </select>
+
+    <div class="qualityClone">
+      <div class="selectLabel">Quality</div>
+      <div class="selectLabelVal">auto</div>
+      <ul class="options">
+        <li val="auto" class="selected">auto</li>
+        <li val="1080">1080p</li>
+        <li val="720">720p</li>
+        <li val="480">480p</li>
+      </ul>
+    </div>
 
     <button id="fullscreen" title="Toggle Fullscreen">
       <svg version="1.0" id="fullscrnIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -317,15 +352,54 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
               
             if(parent.container.querySelectorAll('.vidSection').length === 0) {
               for(var i=0; i < Object.keys(parent.sections).length;i++) {
-                var currentSect = parent.sections[i+1];
-                var relTime = (currentSect.time/parent.player.duration) * 100;
-                var tempSect = document.createElement('span');
-                tempSect.classList.add('vidSection');
-                tempSect.style.left = relTime+'%';
-                tempSect.innerHTML = '<div class="sectionWrap"><div class="bookmarkContent">'+currentSect.title+'</div></div>';
-                parent.controls.querySelector('#progressBar').appendChild(tempSect);
+                var startTime = parent.sections[i+1].time;
+                var endTime = 0; 
+                
+                if(parent.sections[i+2]) {
+                  endTime = parent.sections[i+2].time;
+                } else {
+                  endTime = parent.player.duration;
+                }
+
+                var tempWrap = document.createElement('span');
+                var sectionWidth = ((endTime - startTime)/parent.player.duration) * 100;
+                tempWrap.style.width = sectionWidth+'%';
+                tempWrap.classList.add('sectionWrapper');
+                parent.controls.querySelector('.vidSections').appendChild(tempWrap);
+                
+                var tempHead = document.createElement('li');
+                if(i === 0) {
+                  tempHead.innerHTML = 'Intro';
+                } else {
+                  tempHead.innerHTML = 'Section ' + i;
+                }
+                tempHead.setAttribute('val', startTime);
+                parent.controls.querySelector('.sectOps').appendChild(tempHead);
+
+                for (var j=0; j < Object.keys(parent.sections[i+1]).length-1;j++) {
+                  var currentSect = parent.sections[i+1][j+1];
+                  var relTime = (currentSect.time/parent.player.duration) * 100;
+                  var tempSect = document.createElement('span');
+                  tempSect.classList.add('bookmark');
+                  tempSect.style.left = relTime+'%';
+                  tempSect.innerHTML = '<div class="bookmarkWrap"><div class="bookmarkContent">'+currentSect.title+'</div></div>';
+                  parent.controls.querySelectorAll('.sectionWrapper')[i].appendChild(tempSect);
+
+                  var convTime = secToMin(currentSect.time);
+                  var tempBtn = document.createElement('li');
+                  var tempMins =  convTime[0] > 9 ? convTime[0]:'0'+convTime[0];
+                  var tempSecs =  convTime[1] > 9 ? convTime[1]:'0'+convTime[1];
+                  tempBtn.innerHTML = tempMins + ':' + tempSecs + ' - ' + currentSect.title;
+                  tempBtn.setAttribute('val', currentSect.time);
+                  parent.controls.querySelector('.sectOps').appendChild(tempBtn);
+                }
               }
             }
+            
+
+            setTimeout(function () {
+              eventHelper(parent);
+            }, 250)
           }
         },50);
 
@@ -421,7 +495,13 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
         this.fullScreenToggle = function () {
           //Enter fullscreen
           //https://github.com/sindresorhus/screenfull.js
-          screenfull.request(this.player);
+          if(this.container.classList.contains('fullscreen')) {
+            this.container.classList.remove('fullscreen')
+            screenfull.exit(this.container);
+          } else {
+            this.container.classList.add('fullscreen');
+            screenfull.request(this.container);
+          }
         };
 
         this.speedAdjust = function (speed) {
@@ -639,6 +719,49 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
 
         target.controls.querySelector('#fullscreen').addEventListener('click', function () {
           target.fullScreenToggle();
+        });
+
+        for(var i=0; i < target.controls.querySelectorAll('.speedClone li').length; i++) {
+          target.controls.querySelectorAll('.speedClone li')[i].addEventListener('click', function (e) {
+            for(var i=0; i < target.controls.querySelectorAll('.speedClone li').length; i++) {
+              target.controls.querySelectorAll('.speedClone li')[i].classList.remove('selected');
+            }
+            e.target.classList.add('selected');
+            target.controls.querySelector('#speed').value = e.target.getAttribute("val");
+            target.controls.querySelector('#speed').dispatchEvent(new Event('change'));
+          });
+        }
+
+        for(var i=0; i < target.controls.querySelectorAll('.qualityClone li').length; i++) {
+          target.controls.querySelectorAll('.qualityClone li')[i].addEventListener('click', function (e) {
+            for(var i=0; i < target.controls.querySelectorAll('.qualityClone li').length; i++) {
+              target.controls.querySelectorAll('.qualityClone li')[i].classList.remove('selected');
+            }
+            e.target.classList.add('selected');
+            target.controls.querySelector('#quality').value = e.target.getAttribute("val");
+            target.controls.querySelector('#quality').dispatchEvent(new Event('change'));
+          });
+        }
+
+        target.controls.querySelector('.sectBtn').addEventListener('click', function (e) {
+          if(target.controls.querySelector('.sectOps').classList.contains('active')) {
+            target.controls.querySelector('.sectOps').classList.remove('active');
+          } else {
+            target.controls.querySelector('.sectOps').classList.add('active');
+          }
+        });
+
+        for(var i=0; i < target.controls.querySelectorAll('.sectOps li').length; i++) {
+          target.controls.querySelectorAll('.sectOps li')[i].addEventListener('click', function (e) {
+            var time = e.target.getAttribute("val");
+            target.seek(time);
+          });
+        }
+
+        screenfull.on('change',function(){
+          if(!screenfull.isFullscreen) {
+            target.container.classList.remove('fullscreen');
+           }
         });
       }
 

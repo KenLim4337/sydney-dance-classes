@@ -5,6 +5,8 @@
   position: relative;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
 }
 
 #videoWrapper * {
@@ -17,6 +19,8 @@
   width: 100%;
   margin: auto;
   display: block;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
 }
 
 #videoWrapper #vidOverlay {
@@ -80,8 +84,8 @@
   right: 0;
   bottom: 60px;
   margin: auto;
-  width: 180px;
-  height: 180px;
+  width: 140px;
+  height: 140px;
   padding: 10px;
   z-index: 11;
   display: none;
@@ -90,8 +94,8 @@
 }
 
 #videoWrapper .overlayLoading img {
-  width: 200px;
-  height: 200px;
+  width: 160px;
+  height: 160px;
   margin: -20px;
   z-index: 12;
 }
@@ -100,6 +104,61 @@
   max-width: 1080px;
   width: 100%;
   margin: auto;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+#videoWrapper .controlWrapper .sectionMenu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+  width: auto;
+  z-index: 5;
+  height: 100%;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectBtn {
+  display: inline-block;
+  vertical-align: top;
+  width: 150px;
+  text-align: center;
+  padding: 20px;
+  color: #FF7714;
+  background-color: rgba(12, 12, 12, 0.8);
+  margin-top: 10px;
+  margin-right: -3px;
+  cursor: pointer;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectOps {
+  display: inline-block;
+  vertical-align: top;
+  background-color: rgba(12, 12, 12, 0.5);
+  height: 100%;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectOps.active {
+  width: 250px;
+  padding: 20px;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectOps li {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectOps li:hover {
+  color: #FF7714;
 }
 
 #videoWrapper .controlWrapper #progressBar {
@@ -112,61 +171,78 @@
   position: relative;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  overflow: hidden;
 }
 
 #videoWrapper .controlWrapper #progressBar .progBG {
   width: 100%;
-  height: 20px;
+  height: 10px;
   background-color: rgba(12, 12, 12, 0.5);
   -webkit-transition: 0.2s linear all;
   transition: 0.2s linear all;
   position: absolute;
   left: 0;
-  top: 10px;
+  top: 20px;
+}
+
+#videoWrapper .controlWrapper #progressBar:hover {
+  overflow: visible;
 }
 
 #videoWrapper .controlWrapper #progressBar:hover .progBG {
-  height: 30px;
-  top: 0;
+  height: 20px;
+  top: 10px;
   -webkit-transition: 0.2s linear all;
   transition: 0.2s linear all;
   background-color: rgba(12, 12, 12, 0.7);
 }
 
-#videoWrapper .controlWrapper #progressBar:hover .active, #videoWrapper .controlWrapper #progressBar:hover .buffered {
-  height: 30px;
-  top: 0;
+#videoWrapper .controlWrapper #progressBar:hover .active,
+#videoWrapper .controlWrapper #progressBar:hover .buffered,
+#videoWrapper .controlWrapper #progressBar:hover .vidSections {
+  height: 20px;
+  top: 10px;
+}
+
+#videoWrapper .controlWrapper #progressBar:hover .vidSections .sectionWrapper {
+  height: 20px;
+  top: 0px;
+}
+
+#videoWrapper .controlWrapper #progressBar:hover .vidSections .sectionWrapper .bookmark {
+  height: 20px;
 }
 
 #videoWrapper .controlWrapper #progressBar:hover .dot {
-  width: 32px;
-  height: 32px;
-  top: -1px;
+  width: 25px;
+  height: 25px;
+  top: 10px;
 }
 
 #videoWrapper .controlWrapper #progressBar .active {
   position: absolute;
   display: block;
-  height: 20px;
+  height: 10px;
   width: 0;
   left: 0;
-  top: 10px;
+  top: 20px;
   background-color: #FF7714;
   -webkit-transition: 0.2s linear;
   transition: 0.2s linear;
   z-index: 2;
-  -webkit-transition-property: height,top;
-  transition-property: height,top;
+  -webkit-transition-property: height, top;
+  transition-property: height, top;
+  pointer-events: none;
 }
 
 #videoWrapper .controlWrapper #progressBar .dot {
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   border: 0px #fff solid;
   padding: 4px;
-  top: 10px;
+  top: 20px;
   bottom: 0;
   margin: auto;
   left: 0;
@@ -174,91 +250,151 @@
   background-color: #FF7714;
   -webkit-transition: 0.2s linear;
   transition: 0.2s linear;
-  -webkit-transition-property: width,height,border,padding,top,-webkit-box-shadow;
-  transition-property: width,height,border,padding,top,-webkit-box-shadow;
-  transition-property: width,height,border,padding,box-shadow,top;
-  transition-property: width,height,border,padding,box-shadow,top,-webkit-box-shadow;
+  -webkit-transition-property: width, height, border, padding, top, -webkit-box-shadow;
+  transition-property: width, height, border, padding, top, -webkit-box-shadow;
+  transition-property: width, height, border, padding, box-shadow, top;
+  transition-property: width, height, border, padding, box-shadow, top, -webkit-box-shadow;
 }
 
 #videoWrapper .controlWrapper #progressBar .dot:hover {
   padding: 0;
-  border: 12px #fff solid;
+  border: 5px #fff solid;
   -webkit-box-shadow: 0px 0px 6px #ddd;
           box-shadow: 0px 0px 6px #ddd;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
 }
 
 #videoWrapper .controlWrapper #progressBar .buffered {
   position: absolute;
   display: block;
-  height: 20px;
+  height: 10px;
   width: 100px;
   left: 100px;
-  top: 10px;
+  top: 20px;
   background-color: rgba(255, 255, 255, 0.4);
   -webkit-transition: 0.2s linear all;
   transition: 0.2s linear all;
 }
 
 #videoWrapper .controlWrapper #progressBar.changing .progBG {
-  height: 30px;
-  top: 0;
+  height: 20px;
+  top: 10px;
   -webkit-transition: 0.2s linear all;
   transition: 0.2s linear all;
   background-color: rgba(12, 12, 12, 0.7);
 }
 
-#videoWrapper .controlWrapper #progressBar.changing .active, #videoWrapper .controlWrapper #progressBar.changing .buffered {
-  height: 30px;
-  top: 0;
+#videoWrapper .controlWrapper #progressBar.changing .active,
+#videoWrapper .controlWrapper #progressBar.changing .buffered,
+#videoWrapper .controlWrapper #progressBar.changing .vidSections {
+  height: 20px;
+  top: 10px;
+}
+
+#videoWrapper .controlWrapper #progressBar.changing .vidSections .sectionWrapper {
+  height: 20px;
+  top: 0px;
+}
+
+#videoWrapper .controlWrapper #progressBar.changing .vidSections .sectionWrapper .bookmark {
+  height: 20px;
 }
 
 #videoWrapper .controlWrapper #progressBar.changing .dot {
   padding: 0;
-  border: 12px #fff solid;
+  border: 5px #fff solid;
   -webkit-box-shadow: 0px 0px 6px #ddd;
           box-shadow: 0px 0px 6px #ddd;
-  width: 24px;
-  height: 24px;
-  top: -1px;
+  width: 30px;
+  height: 30px;
+  top: 10px;
 }
 
-#videoWrapper .controlWrapper #progressBar .vidSection {
+#videoWrapper .controlWrapper #progressBar .vidSections {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  top: 20px;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSections .sectionWrapper {
+  height: 10px;
+  display: inline-block;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSections .sectionWrapper .bookmark {
   position: absolute;
   display: block;
   width: 14px;
-  height: 100%;
-  top: 0;
+  height: 10px;
+  top: 0px;
   margin-left: -7px;
   background: white;
+  border-radius: 4px;
+  z-index: 2;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
 }
 
-#videoWrapper .controlWrapper #progressBar .vidSection .sectionWrap {
+#videoWrapper .controlWrapper #progressBar .vidSections .sectionWrapper .bookmark .bookmarkWrap {
   display: block;
   position: relative;
   width: auto;
   max-width: none;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
 }
 
-#videoWrapper .controlWrapper #progressBar .vidSection .sectionWrap .bookmarkContent {
+#videoWrapper .controlWrapper #progressBar .vidSections .sectionWrapper .bookmark .bookmarkWrap .bookmarkContent {
   display: block;
   position: absolute;
   background: #111;
   color: white;
-  width: 100px;
+  width: 150px;
   text-align: center;
   padding: 10px;
   border-radius: 5px;
   bottom: calc(100% + 10px);
-  left: -43px;
+  left: -68px;
   opacity: 0;
   pointer-events: none;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
 }
 
-#videoWrapper .controlWrapper #progressBar .vidSection:hover .sectionWrap .bookmarkContent {
+#videoWrapper .controlWrapper #progressBar .vidSections .sectionWrapper .bookmark .bookmarkWrap .bookmarkContent:after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: #111 solid 13px;
+  border-right: transparent solid 10px;
+  border-left: transparent solid 10px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  bottom: -13px;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSections .sectionWrapper .bookmark:hover .bookmarkWrap .bookmarkContent {
   opacity: 1;
   pointer-events: all;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSections .sectionWrapper .bookmark:hover {
+  -webkit-box-shadow: 0 0 5px 2px #fff;
+          box-shadow: 0 0 5px 2px #fff;
+}
+
+#videoWrapper .controlWrapper #progressBar .vidSections .sectionWrapper:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 #videoWrapper .controlWrapper #nonProg {
@@ -274,17 +410,19 @@
   background: #111;
   padding: 10px 25px;
   height: 60px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 #videoWrapper .controlWrapper #nonProg button {
-  font-size: 10px;
-  width: 40px;
-  height: 40px;
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
   border: none;
   background: none;
   color: #FF7714;
   cursor: pointer;
-  padding: 5px 15px;
+  margin: 5px 5px;
   outline: none;
   display: inline-block;
   vertical-align: middle;
@@ -362,20 +500,26 @@
   -webkit-transition: 0.2s ease color;
   transition: 0.2s ease color;
   color: #fff;
-  width: 80px;
+  width: 85px;
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust #mirror:after {
-  content: ': On';
-  display: inline;
+  content: 'Off';
+  display: block;
+  font-weight: bold;
+  text-shadow: 0px 0px 10px #FF7714;
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust #mirror:hover {
   color: #FF7714;
 }
 
+#videoWrapper .controlWrapper #nonProg .leftClust #mirror:hover:after {
+  text-shadow: 0px 0px 10px #fff;
+}
+
 #videoWrapper .controlWrapper #nonProg .leftClust #mirror.mirrored:after {
-  content: ': Off';
+  content: 'On';
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust {
@@ -389,7 +533,9 @@
   margin-right: 5px;
 }
 
-#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .loVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .mdVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .hiVol {
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .loVol,
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .mdVol,
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute .hiVol {
   display: none;
 }
 
@@ -397,15 +543,20 @@
   display: block;
 }
 
-#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.mid .loVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.mid .mdVol {
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.mid .loVol,
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.mid .mdVol {
   display: block;
 }
 
-#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .loVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .mdVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .hiVol {
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .loVol,
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .mdVol,
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.high .hiVol {
   display: block;
 }
 
-#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .loVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .mdVol, #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .hiVol {
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .loVol,
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .mdVol,
+#videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute.muted .hiVol {
   display: none !important;
 }
 
@@ -472,9 +623,118 @@
 }
 
 #videoWrapper .controlWrapper #nonProg .rightClust select {
-  display: inline-block;
+  display: none;
   vertical-align: middle;
   width: 100px;
   cursor: pointer;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div {
+  display: inline-block;
+  position: relative;
+  width: auto;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  margin: 0 20px;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div .selectLabel {
+  display: block;
+  width: auto;
+  color: white;
+  text-align: center;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div .selectLabelVal {
+  display: block;
+  width: auto;
+  color: white;
+  text-shadow: 0px 0px 10px #FF7714;
+  text-align: center;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div ul {
+  position: absolute;
+  list-style: none;
+  background-color: rgba(12, 12, 12, 0.5);
+  left: -25px;
+  margin: auto;
+  width: 100px;
+  padding: 15px 15px 15px;
+  opacity: 0;
+  bottom: 0;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  pointer-events: none;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div ul li {
+  width: 100%;
+  text-align: center;
+  color: white;
+  margin-bottom: 10px;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div ul li.selected {
+  color: #FF7714;
+  text-shadow: 0px 0px 15px #fff;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div ul li:hover {
+  color: #FF7714;
+  text-shadow: 0px 0px 10px #fff;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div ul li:hover.selected {
+  color: #FF7714;
+  text-shadow: 0px 0px 15px #fff;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div:hover .selectLabel,
+#videoWrapper .controlWrapper #nonProg .rightClust > div:hover .selectLabelVal {
+  color: #FF7714;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div:hover .selectLabelVal {
+  text-shadow: 0px 0px 10px #fff;
+}
+
+#videoWrapper .controlWrapper #nonProg .rightClust > div:hover ul {
+  opacity: 1;
+  bottom: calc(100%);
+  pointer-events: all;
+}
+
+#videoWrapper.fullscreen {
+  max-width: 100vw;
+  width: 100vw;
+}
+
+#videoWrapper.fullscreen .controlWrapper {
+  max-width: 100vw;
+  width: 100vw;
+  margin: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+#videoWrapper.fullscreen #vidOverlay {
+  position: fixed;
+}
+
+#videoWrapper.fullscreen .overlayPlay {
+  position: fixed;
+}
+
+#videoWrapper.fullscreen .overlayLoading {
+  position: fixed;
 }
 /*# sourceMappingURL=video.css.map */
