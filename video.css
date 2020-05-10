@@ -9,6 +9,13 @@
   transition: 0.2s ease all;
 }
 
+@media screen and (max-width: 767px) {
+  #videoWrapper {
+    width: calc(110% + 30px);
+    margin: auto calc(-5% - 15px);
+  }
+}
+
 #videoWrapper * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -77,6 +84,17 @@
   margin-left: 7px;
 }
 
+@media screen and (max-width: 540px) {
+  #videoWrapper .overlayPlay {
+    width: 70px;
+    height: 70px;
+  }
+  #videoWrapper .overlayPlay #playIcon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
 #videoWrapper .overlayLoading {
   position: absolute;
   top: 0;
@@ -97,7 +115,21 @@
   width: 160px;
   height: 160px;
   margin: -20px;
+  max-width: none;
   z-index: 12;
+}
+
+@media screen and (max-width: 540px) {
+  #videoWrapper .overlayLoading {
+    width: 80px;
+    height: 80px;
+    padding: 0;
+  }
+  #videoWrapper .overlayLoading img {
+    width: 80px;
+    height: 80px;
+    margin: 0;
+  }
 }
 
 #videoWrapper .controlWrapper {
@@ -115,7 +147,8 @@
   color: white;
   width: auto;
   z-index: 5;
-  height: 100%;
+  height: auto;
+  pointer-events: none;
 }
 
 #videoWrapper .controlWrapper .sectionMenu .sectBtn {
@@ -123,12 +156,13 @@
   vertical-align: top;
   width: 150px;
   text-align: center;
-  padding: 20px;
+  padding: 15px 20px;
   color: #FF7714;
   background-color: rgba(12, 12, 12, 0.8);
   margin-top: 10px;
-  margin-right: -3px;
+  margin-right: -4px;
   cursor: pointer;
+  pointer-events: all;
 }
 
 #videoWrapper .controlWrapper .sectionMenu .sectOps {
@@ -142,23 +176,64 @@
   list-style: none;
   -webkit-transition: 0.2s ease all;
   transition: 0.2s ease all;
-}
-
-#videoWrapper .controlWrapper .sectionMenu .sectOps.active {
-  width: 250px;
-  padding: 20px;
+  overflow-y: auto;
 }
 
 #videoWrapper .controlWrapper .sectionMenu .sectOps li {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  margin-bottom: 20px;
-  cursor: pointer;
+  margin-bottom: 15px;
+  pointer-events: none;
+  font-weight: bold;
 }
 
-#videoWrapper .controlWrapper .sectionMenu .sectOps li:hover {
+#videoWrapper .controlWrapper .sectionMenu .sectOps li.active {
+  text-shadow: 0px 0px 10px #FF7714;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectOps li.active:hover {
+  text-shadow: 0px 0px 10px #fff;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectOps li.clickable {
+  cursor: pointer;
+  padding-left: 20px;
+  pointer-events: all;
+  font-weight: normal;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectOps li.clickable:hover {
   color: #FF7714;
+}
+
+#videoWrapper .controlWrapper .sectionMenu.active {
+  height: 100%;
+  pointer-events: all;
+}
+
+#videoWrapper .controlWrapper .sectionMenu.active .sectOps {
+  width: 250px;
+  padding: 25px 20px 15px;
+}
+
+@media screen and (max-width: 540px) {
+  #videoWrapper .controlWrapper .sectionMenu .sectBtn {
+    width: 120px;
+    padding: 10px 5px;
+    font-size: 14px;
+    line-height: 18px;
+    margin-top: 5px;
+  }
+  #videoWrapper .controlWrapper .sectionMenu .sectOps li {
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 10px;
+  }
+  #videoWrapper .controlWrapper .sectionMenu.active .sectOps {
+    width: 175px;
+    padding: 15px 10px 10px;
+  }
 }
 
 #videoWrapper .controlWrapper #progressBar {
@@ -424,8 +499,18 @@
   cursor: pointer;
   margin: 5px 5px;
   outline: none;
-  display: inline-block;
-  vertical-align: middle;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  padding: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 #videoWrapper .controlWrapper #nonProg button:hover svg {
@@ -458,6 +543,12 @@
 
 #videoWrapper .controlWrapper #nonProg .leftClust .textTimer .progTime.changing {
   color: #FF7714;
+}
+
+@media screen and (max-width: 870px) {
+  #videoWrapper .controlWrapper #nonProg .leftClust .textTimer {
+    display: none;
+  }
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust #playBtn #pauseIcon {
@@ -501,13 +592,18 @@
   transition: 0.2s ease color;
   color: #fff;
   width: 85px;
+  line-height: 20px;
+  margin-top: -10px;
+  margin-bottom: 0;
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust #mirror:after {
   content: 'Off';
   display: block;
+  width: 100%;
   font-weight: bold;
   text-shadow: 0px 0px 10px #FF7714;
+  line-height: 20px;
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust #mirror:hover {
@@ -523,9 +619,13 @@
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust {
-  display: inline-block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   vertical-align: middle;
-  vertical-align: top;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust #mute {
@@ -614,7 +714,6 @@
   -webkit-transition: 0.2s linear all;
   transition: 0.2s linear all;
   opacity: 0;
-  margin-top: 5px;
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust:hover input {
@@ -635,8 +734,8 @@
   width: auto;
   cursor: pointer;
   vertical-align: middle;
-  text-align: center;
   margin: 0 20px;
+  vertical-align: top;
 }
 
 #videoWrapper .controlWrapper #nonProg .rightClust > div .selectLabel {
@@ -646,6 +745,7 @@
   text-align: center;
   -webkit-transition: 0.2s ease all;
   transition: 0.2s ease all;
+  line-height: 20px;
 }
 
 #videoWrapper .controlWrapper #nonProg .rightClust > div .selectLabelVal {
@@ -656,6 +756,7 @@
   text-align: center;
   -webkit-transition: 0.2s ease all;
   transition: 0.2s ease all;
+  line-height: 20px;
 }
 
 #videoWrapper .controlWrapper #nonProg .rightClust > div ul {
@@ -665,7 +766,7 @@
   left: -25px;
   margin: auto;
   width: 100px;
-  padding: 15px 15px 15px;
+  padding: 10px 15px 10px;
   opacity: 0;
   bottom: 0;
   -webkit-transition: 0.2s ease all;
@@ -677,7 +778,7 @@
   width: 100%;
   text-align: center;
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   -webkit-transition: 0.2s ease all;
   transition: 0.2s ease all;
 }
@@ -712,9 +813,76 @@
   pointer-events: all;
 }
 
+@media screen and (max-width: 767px) {
+  #videoWrapper .controlWrapper #nonProg {
+    padding: 10px 10px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  #videoWrapper .controlWrapper #nonProg .leftClust #mirror {
+    width: 60px;
+    margin: -10px 0 0 0;
+  }
+  #videoWrapper .controlWrapper #nonProg .rightClust > div {
+    margin: 2px 5px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  #videoWrapper .controlWrapper #nonProg {
+    height: 40px;
+    padding: 5px 10px;
+  }
+  #videoWrapper .controlWrapper #nonProg button {
+    width: 20px;
+    height: 20px;
+  }
+  #videoWrapper .controlWrapper #nonProg .leftClust #mirror {
+    font-size: 12px;
+    line-height: 14px;
+    width: 45px;
+  }
+  #videoWrapper .controlWrapper #nonProg .leftClust #mirror:after {
+    line-height: 14px;
+  }
+  #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust:hover input {
+    width: 50px;
+  }
+  #videoWrapper .controlWrapper #nonProg .rightClust > div {
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0 5px;
+  }
+  #videoWrapper .controlWrapper #nonProg .rightClust > div ul {
+    left: -20px;
+    width: 75px;
+  }
+  #videoWrapper .controlWrapper #nonProg .rightClust > div .selectLabel, #videoWrapper .controlWrapper #nonProg .rightClust > div .selectLabelVal {
+    line-height: 14px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #videoWrapper .controlWrapper #nonProg {
+    padding: 5px;
+  }
+  #videoWrapper .controlWrapper #nonProg .leftClust #backward, #videoWrapper .controlWrapper #nonProg .leftClust #forward {
+    display: none;
+  }
+}
+
 #videoWrapper.fullscreen {
   max-width: 100vw;
   width: 100vw;
+}
+
+#videoWrapper.fullscreen video {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 #videoWrapper.fullscreen .controlWrapper {
@@ -724,6 +892,10 @@
   position: fixed;
   bottom: 0;
   left: 0;
+}
+
+#videoWrapper.fullscreen .controlWrapper .sectionMenu {
+  position: fixed;
 }
 
 #videoWrapper.fullscreen #vidOverlay {

@@ -63,7 +63,7 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
       </video>
     -->
     <style>
-      
+
     </style>
 
     <script type="text/javascript">
@@ -389,6 +389,7 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
                   var tempBtn = document.createElement('li');
                   var tempMins =  convTime[0] > 9 ? convTime[0]:'0'+convTime[0];
                   var tempSecs =  convTime[1] > 9 ? convTime[1]:'0'+convTime[1];
+                  tempBtn.classList.add('clickable');
                   tempBtn.innerHTML = tempMins + ':' + tempSecs + ' - ' + currentSect.title;
                   tempBtn.setAttribute('val', currentSect.time);
                   parent.controls.querySelector('.sectOps').appendChild(tempBtn);
@@ -437,6 +438,23 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
               } else {
                 bufferThrottle++;
               }
+
+              for(var i=0; i < parent.controls.querySelectorAll('.sectOps li.clickable').length; i++) {
+                var found = false;
+                var tempTime = parseInt(parent.controls.querySelectorAll('.sectOps li.clickable')[i].getAttribute('val'));
+                parent.controls.querySelectorAll('.sectOps li.clickable')[i].classList.remove('active');
+
+                if(!found && parent.player.currentTime > tempTime) {
+                  if(!parent.controls.querySelectorAll('.sectOps li.clickable')[i + 1]) {
+                    found = true;
+                    parent.controls.querySelectorAll('.sectOps li.clickable')[i].classList.add('active');
+                  } else if(parseInt(parent.controls.querySelectorAll('.sectOps li.clickable')[i + 1].getAttribute('val')) > parent.player.currentTime) {
+                    found = true;
+                    parent.controls.querySelectorAll('.sectOps li.clickable')[i].classList.add('active');
+                  }
+                }
+              }
+
             },333);
           } else {
             clearInterval(playPoller);
@@ -744,19 +762,31 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
         }
 
         target.controls.querySelector('.sectBtn').addEventListener('click', function (e) {
-          if(target.controls.querySelector('.sectOps').classList.contains('active')) {
-            target.controls.querySelector('.sectOps').classList.remove('active');
+          if(target.controls.querySelector('.sectionMenu').classList.contains('active')) {
+            target.controls.querySelector('.sectionMenu').classList.remove('active');
+            videoPlayers[0].controls.querySelector('.sectBtn').innerText = 'Show Sections';
           } else {
-            target.controls.querySelector('.sectOps').classList.add('active');
+            target.controls.querySelector('.sectionMenu').classList.add('active');
+            videoPlayers[0].controls.querySelector('.sectBtn').innerText = 'Hide Sections';
           }
         });
 
-        for(var i=0; i < target.controls.querySelectorAll('.sectOps li').length; i++) {
-          target.controls.querySelectorAll('.sectOps li')[i].addEventListener('click', function (e) {
+        for(var i=0; i < target.controls.querySelectorAll('.sectOps li.clickable').length; i++) {
+          target.controls.querySelectorAll('.sectOps li.clickable')[i].addEventListener('click', function (e) {
             var time = e.target.getAttribute("val");
             target.seek(time);
           });
         }
+
+        document.addEventListener('keyup', function (e) {
+          if(e.keyCode == 32){
+              target.controls.querySelector('#playBtn').dispatchEvent(new Event('click'));
+          }
+        });
+
+        target.player.addEventListener('click',function(){
+          target.controls.querySelector('#playBtn').dispatchEvent(new Event('click'));
+        });
 
         screenfull.on('change',function(){
           if(!screenfull.isFullscreen) {

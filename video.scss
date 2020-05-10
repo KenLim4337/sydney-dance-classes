@@ -8,6 +8,11 @@ $orange: #FF7714;
     box-sizing: border-box;
     transition: 0.2s ease all;
 
+    @media screen and (max-width: 767px) {
+        width: calc(110% + 30px);
+        margin: auto calc(-5% - 15px);
+    }
+
     * {
         box-sizing: border-box;
     }
@@ -64,6 +69,16 @@ $orange: #FF7714;
                 margin-left: 7px;
             }
         }
+
+        @media screen and (max-width: 540px) {
+            width: 70px;
+            height: 70px;
+            
+            #playIcon {
+                width: 30px;
+                height: 30px;
+            }
+        }
     }
 
     .overlayLoading {
@@ -85,7 +100,19 @@ $orange: #FF7714;
             width: 160px;
             height: 160px;
             margin: -20px;
+            max-width: none;
             z-index: 12;
+        }
+        
+        @media screen and (max-width: 540px) {
+            width: 80px;
+            height: 80px;
+            padding: 0;
+            img {
+                width: 80px;
+                height: 80px;
+                margin: 0;
+            }
         }
     }
 
@@ -102,19 +129,21 @@ $orange: #FF7714;
             color: white;
             width: auto;
             z-index: 5;
-            height: 100%;
+            height: auto;
+            pointer-events: none;
 
             .sectBtn {
                 display: inline-block;
                 vertical-align: top;
                 width: 150px;
                 text-align: center;
-                padding: 20px;
+                padding: 15px 20px;
                 color: $orange;
                 background-color: rgba(12, 12, 12, 0.8);
                 margin-top: 10px;
-                margin-right: -3px;
+                margin-right: -4px;
                 cursor: pointer;
+                pointer-events: all;
             }
 
             .sectOps {
@@ -127,21 +156,69 @@ $orange: #FF7714;
                 padding: 0;
                 list-style: none;
                 transition: 0.2s ease all;
-
-                &.active {
-                    width: 250px;
-                    padding: 20px;
-                }
+                overflow-y: auto;
 
                 li {
                     width: 100%;
                     overflow: hidden;
                     white-space: nowrap;
-                    margin-bottom: 20px;
-                    cursor: pointer;
+                    margin-bottom: 15px;
+                    pointer-events: none;
+                    font-weight: bold;
 
-                    &:hover {
-                        color: $orange;
+                    &.active {
+                        text-shadow: 0px 0px 10px $orange;
+
+                        &:hover {
+                            text-shadow: 0px 0px 10px #fff;
+                        }
+                    }
+
+                    &.clickable {
+                        cursor: pointer;
+                        padding-left: 20px;
+                        pointer-events: all;
+                        font-weight: normal;
+
+                        &:hover {
+                            color: $orange;
+                        }
+                    }
+                }
+            }
+
+            &.active {
+                height: 100%;
+                pointer-events: all;
+                
+                .sectOps {
+                    width: 250px;
+                    padding: 25px 20px 15px;
+                }
+            }
+            
+
+            @media screen and (max-width:540px) {
+                .sectBtn {
+                    width: 120px;
+                    padding: 10px 5px;
+                    font-size: 14px;
+                    line-height: 18px;    
+                    margin-top: 5px;
+                }
+
+                .sectOps {
+                    li {
+                        font-size: 14px;
+                        line-height: 18px;
+                        margin-bottom: 10px;
+                    }
+                }
+
+                &.active {
+                    .sectOps {
+                        width: 175px;
+                        padding: 15px 10px 10px;                    
                     }
                 }
             }
@@ -390,8 +467,11 @@ $orange: #FF7714;
                 cursor: pointer;
                 margin: 5px 5px;
                 outline: none;
-                display: inline-block;
-                vertical-align: middle;
+                display: inline-flex;
+                padding: 0;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
 
                 &:hover {
                     svg {
@@ -419,6 +499,10 @@ $orange: #FF7714;
 
                     .progTime.changing {
                         color: $orange;
+                    }
+
+                    @media screen and (max-width:870px) {
+                        display: none;
                     }
                 }
 
@@ -468,12 +552,17 @@ $orange: #FF7714;
                     transition: 0.2s ease color;
                     color: #fff;
                     width: 85px;
+                    line-height: 20px;
+                    margin-top: -10px;
+                    margin-bottom: 0;
 
                     &:after {
                         content: 'Off';
                         display: block;
+                        width: 100%;
                         font-weight: bold;
                         text-shadow: 0px 0px 10px $orange;
+                        line-height: 20px;
                     }
 
                     &:hover {
@@ -492,9 +581,9 @@ $orange: #FF7714;
                 }
 
                 .volumeClust {
-                    display: inline-block;
+                    display: flex;
                     vertical-align: middle;
-                    vertical-align: top;
+                    align-items: center;
 
                     #mute {
                         position: relative;
@@ -594,7 +683,6 @@ $orange: #FF7714;
                         width: 0;
                         transition: 0.2s linear all;
                         opacity: 0;
-                        margin-top: 5px;
                     }
 
                     &:hover input {
@@ -602,8 +690,6 @@ $orange: #FF7714;
                         opacity: 1;
                     }
                 }
-
-                @media screen and (max-width: 767px) {}
             }
 
             .rightClust {
@@ -620,8 +706,8 @@ $orange: #FF7714;
                     width: auto;
                     cursor: pointer;
                     vertical-align: middle;
-                    text-align: center;
                     margin: 0 20px;
+                    vertical-align: top;
 
                     .selectLabel {
                         display: block;
@@ -629,6 +715,7 @@ $orange: #FF7714;
                         color: white;
                         text-align: center;
                         transition: 0.2s ease all;
+                        line-height: 20px;
                     }
 
                     .selectLabelVal {
@@ -638,6 +725,7 @@ $orange: #FF7714;
                         text-shadow: 0px 0px 10px $orange;
                         text-align: center;
                         transition: 0.2s ease all;
+                        line-height: 20px;
                     }
 
                     ul {
@@ -647,7 +735,7 @@ $orange: #FF7714;
                         left: -25px;
                         margin: auto;
                         width: 100px;
-                        padding: 15px 15px 15px;
+                        padding: 10px 15px 10px;
                         opacity: 0;
                         bottom: 0;
                         transition: 0.2s ease all;
@@ -657,7 +745,7 @@ $orange: #FF7714;
                             width: 100%;
                             text-align: center;
                             color: white;
-                            margin-bottom: 10px;
+                            margin-bottom: 5px;
                             transition: 0.2s ease all;
 
                             &.selected {
@@ -696,12 +784,96 @@ $orange: #FF7714;
                     }
                 }
             }
+            
+            @media screen and (max-width:767px) {
+                padding: 10px 10px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+
+                .leftClust {
+                    #mirror {
+                        width: 60px;
+                        margin: -10px 0 0 0;
+                    }
+                }
+
+                .rightClust  {
+                    &>div {
+                        margin: 2px 5px;
+                    }
+                }
+            }
+
+            
+            @media screen and (max-width:540px) {
+                height: 40px;
+                padding: 5px 10px;
+
+                button {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .leftClust {
+                    #mirror {
+                        font-size: 12px;
+                        line-height: 14px;
+                        width: 45px;
+
+                        &:after {
+                            line-height: 14px;
+                        }
+                    }
+
+                    
+                    .volumeClust {
+                        &:hover input {
+                            width: 50px;
+                        }
+                    }
+                }
+                .rightClust  {
+                    &>div {
+                        font-size: 12px;
+                        line-height: 14px;
+                        margin: 0 5px;
+                        
+                        ul {    
+                            left: -20px;
+                            width: 75px;
+                        }
+
+                        .selectLabel, .selectLabelVal {
+                            line-height: 14px;
+                        }
+                    }
+                }
+            }
+
+            @media screen and (max-width: 400px) {
+                padding: 5px; 
+
+                .leftClust {
+                    #backward, #forward {
+                        display: none;
+                    }
+                }
+            }
         }
     }
 
     &.fullscreen {
         max-width: 100vw;
         width: 100vw;
+
+        video {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
 
         .controlWrapper {
             max-width: 100vw;
@@ -710,6 +882,10 @@ $orange: #FF7714;
             position: fixed;
             bottom: 0;
             left: 0;
+
+            .sectionMenu {
+                position: fixed;
+            }
         }
 
         #vidOverlay {
