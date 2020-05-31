@@ -1,4 +1,8 @@
 <!--
+- Z index fixes for quality and speed
+- Full screen screen freeze
+- Full screen stylings
+
 
 Internet Explorer 8 and below do not support the video tag at all. IE 9 will support H.264.
 Firefox 3.5+ supports Ogg Theora. Firefox 4+ supports VP8 (WebM).
@@ -63,14 +67,14 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
       </video>
     -->
     <style>
-
+      
     </style>
 
     <script type="text/javascript">
       //Data Struct for a video
       var videoData = {
         id: '000',
-        title: 'Test Video 101',
+        title: 'BTS ON',
         //VP8, H264, OGG Codec
         links: {
           '1080': {
@@ -91,24 +95,42 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
         },
         sections: {
           1: {
+            'title': 'Intro',
             'time': 0,
-
-            1: {
-              'title': 'Intro',
-              'time': 10,
-            },
-            2: {
-              'title': 'Chorus',
-              'time': 120,
-            }
           },
           2: {
-            'time': 300,
+            'title': 'Part 01',
+            'time': 21,
 
             1: {
-              'title': 'Jazz Hands',
-              'time': 340,
-            }
+              'title': 'Learn',
+              'time': 21,
+            },
+          },
+          3: {
+            'title': 'Part 02',
+            'time': 370,
+
+            1: {
+              'title': 'Learn',
+              'time': 370,
+            },
+            2: {
+              'title': 'From the top',
+              'time': 439,
+            },
+            3: {
+              'title': 'Music - 75% speed',
+              'time': 512,
+            },
+            4: {
+              'title': 'Music - Tempo',
+              'time': 570,
+            },
+            5: {
+              'title': 'Outro',
+              'time': 620,
+            },
           },
         }
       }
@@ -156,12 +178,13 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
         this.container.appendChild(playerNode);
 
         this.player = this.container.querySelector('video');
+        this.player.controls = false;
 
         //Avoid destroying anyone's hearing
         this.player.volume = 0.4;
 
         //Add controls
-
+        
         var controlNode = document.createElement('div');
         controlNode.classList.add('controlWrapper');
         controlNode.classList.add('controlWrapper');
@@ -169,6 +192,35 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
         controlNode.innerHTML = `    
         <div class="sectionMenu"> <div class="sectBtn">Show Sections</div> <ul class="sectOps"></ul></div>
         <div id="vidOverlay"></div>
+        <div id="hotKeys"><div class="ttButton">?</div>
+        <div class="toolTips">
+          <table>
+          <tr>
+            <td>Space</td>
+            <td> - Play/Pause</td>
+          </tr>
+          <tr>
+            <td>M</td>
+            <td>- Mirror</td>
+          </tr>
+          <tr>
+            <td>F</td>
+            <td>- Fullscreen</td>
+          </tr>
+          <tr>
+            <td><span class="arrow right"></span></td>
+            <td>- Fast Forward</td>
+          </tr>
+          <tr>
+            <td><span class="arrow left"></span></td>
+            <td>- Rewind</td>
+          </tr>
+          <tr>
+            <td>X</td>
+            <td>- Mute</td>
+          </tr>
+        </table>
+        </div></div>
         <div class="overlayPlay">
 
           <svg version="1.0" id="playIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -373,10 +425,13 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
                 } else {
                   tempHead.innerHTML = 'Section ' + i;
                 }
+                
+                tempHead.innerHTML = parent.sections[i+1].title;
+                
                 tempHead.setAttribute('val', startTime);
                 parent.controls.querySelector('.sectOps').appendChild(tempHead);
 
-                for (var j=0; j < Object.keys(parent.sections[i+1]).length-1;j++) {
+                for (var j=0; j < Object.keys(parent.sections[i+1]).length-2;j++) {
                   var currentSect = parent.sections[i+1][j+1];
                   var relTime = (currentSect.time/parent.player.duration) * 100;
                   var tempSect = document.createElement('span');
@@ -761,6 +816,14 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
           });
         }
 
+        target.controls.querySelector('.ttButton').addEventListener('click', function (e) {
+          if(target.controls.querySelector('#hotKeys').classList.contains('active')) {
+            target.controls.querySelector('#hotKeys').classList.remove('active');
+          } else {
+            target.controls.querySelector('#hotKeys').classList.add('active');
+          }
+        });
+
         target.controls.querySelector('.sectBtn').addEventListener('click', function (e) {
           if(target.controls.querySelector('.sectionMenu').classList.contains('active')) {
             target.controls.querySelector('.sectionMenu').classList.remove('active');
@@ -779,13 +842,69 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
         }
 
         document.addEventListener('keyup', function (e) {
-          if(e.keyCode == 32){
-              target.controls.querySelector('#playBtn').dispatchEvent(new Event('click'));
+          if(target.container.querySelector('#vidOverlay').style.display === 'none') {
+            e.preventDefault();
+            switch (e.keyCode) {
+              case 32:
+                target.controls.querySelector('#playBtn').dispatchEvent(new Event('click'));
+                break;
+              case 39:
+                target.controls.querySelector('#forward').dispatchEvent(new Event('click'));
+                break;
+              case 37:
+                target.controls.querySelector('#backward').dispatchEvent(new Event('click'));
+                break;
+              case 77:
+                target.controls.querySelector('#mirror').dispatchEvent(new Event('click'));
+                break;
+              case 70:
+                target.controls.querySelector('#fullscreen').dispatchEvent(new Event('click'));
+                break;
+              case 88:
+                target.controls.querySelector('#mute').dispatchEvent(new Event('click'));
+                break;
+              default: 
+                break;
+            }
           }
         });
 
+        var numclicks = 0;
+        var clickPoll;
         target.player.addEventListener('click',function(){
-          target.controls.querySelector('#playBtn').dispatchEvent(new Event('click'));
+          if(target.controls.querySelector('#hotKeys').classList.contains('active')||target.controls.querySelector('.sectionMenu').classList.contains('active')) {
+            target.controls.querySelector('.sectionMenu').classList.remove('active');
+            videoPlayers[0].controls.querySelector('.sectBtn').innerText = 'Show Sections';
+            target.controls.querySelector('#hotKeys').classList.remove('active');
+          } else {
+            numclicks++;
+            clearTimeout(clickPoll);
+            if(numclicks > 1) {
+              numclicks = 0;
+              target.controls.querySelector('#fullscreen').dispatchEvent(new Event('click'));
+            } else {
+              clickPoll = setTimeout(function(){
+                numclicks = 0;
+                target.controls.querySelector('#playBtn').dispatchEvent(new Event('click'));
+              },250);
+            }
+          }
+        });
+
+        target.controls.querySelector('#progressBar').addEventListener('click',function(e){
+          if(target.controls.querySelector('#hotKeys').classList.contains('active')||target.controls.querySelector('.sectionMenu').classList.contains('active')) {
+              target.controls.querySelector('.sectionMenu').classList.remove('active');
+              videoPlayers[0].controls.querySelector('.sectBtn').innerText = 'Show Sections';
+              target.controls.querySelector('#hotKeys').classList.remove('active');
+          }
+        });
+
+        target.controls.querySelector('#nonProg').addEventListener('click',function(e){
+          if(target.controls.querySelector('#hotKeys').classList.contains('active')||target.controls.querySelector('.sectionMenu').classList.contains('active')) {
+              target.controls.querySelector('.sectionMenu').classList.remove('active');
+              videoPlayers[0].controls.querySelector('.sectBtn').innerText = 'Show Sections';
+              target.controls.querySelector('#hotKeys').classList.remove('active');
+          }
         });
 
         screenfull.on('change',function(){

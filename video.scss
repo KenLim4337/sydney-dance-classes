@@ -8,6 +8,31 @@ $orange: #FF7714;
     box-sizing: border-box;
     transition: 0.2s ease all;
 
+    *::-webkit-media-controls-enclosure {
+        display: none !important;
+        -webkit-appearance: none;
+    }
+
+    *::-webkit-media-controls-panel {
+      display: none!important;
+      -webkit-appearance: none;
+    }
+
+    *::-webkit-media-controls {
+        display:none !important;
+        -webkit-appearance: none;
+    }
+    
+    *::-webkit-media-controls-play-button {
+        display: none!important;
+        -webkit-appearance: none;
+    }
+        
+    *::-webkit-media-controls-start-playback-button {
+        display: none!important;
+        -webkit-appearance: none;
+    }
+
     @media screen and (max-width: 767px) {
         width: calc(110% + 30px);
         margin: auto calc(-5% - 15px);
@@ -27,12 +52,18 @@ $orange: #FF7714;
 
     #vidOverlay {
         width: 100%;
-        height: 100%;
+        height: calc(100% + 60px);
         position: absolute;
         background: rgba(0, 0, 0, 0.5);
         top: 0;
         left: 0;
         z-index: 10;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+
+        @media screen and (max-width:540px) {
+            height: calc(100% + 40px);
+        }
     }
 
     .overlayPlay {
@@ -121,6 +152,7 @@ $orange: #FF7714;
         width: 100%;
         margin: auto;
         transition: 0.2s ease all;
+        margin-bottom: 100px;
 
         .sectionMenu {
             position: absolute;
@@ -138,12 +170,17 @@ $orange: #FF7714;
                 width: 150px;
                 text-align: center;
                 padding: 15px 20px;
-                color: $orange;
+                color: white;
                 background-color: rgba(12, 12, 12, 0.8);
-                margin-top: 10px;
+                margin-top: 20px;
                 margin-right: -4px;
                 cursor: pointer;
                 pointer-events: all;
+                transition: 0.2s ease all;
+
+                &:hover {
+                    color: $orange;
+                }
             }
 
             .sectOps {
@@ -161,10 +198,11 @@ $orange: #FF7714;
                 li {
                     width: 100%;
                     overflow: hidden;
-                    white-space: nowrap;
                     margin-bottom: 15px;
                     pointer-events: none;
+                    white-space: nowrap;
                     font-weight: bold;
+                    line-height: 20px;
 
                     &.active {
                         text-shadow: 0px 0px 10px $orange;
@@ -191,9 +229,18 @@ $orange: #FF7714;
                 height: 100%;
                 pointer-events: all;
                 
+                .sectBtn { 
+                    color: $orange;
+                    text-shadow: 0px 0px 10px #fff;
+                }
+                
                 .sectOps {
                     width: 250px;
-                    padding: 25px 20px 15px;
+                    padding: 25px 20px 40px;
+                    li {
+                       overflow: hidden;
+                       white-space: normal;
+                    }
                 }
             }
             
@@ -218,9 +265,146 @@ $orange: #FF7714;
                 &.active {
                     .sectOps {
                         width: 175px;
-                        padding: 15px 10px 10px;                    
+                        padding: 15px 10px 25px;                    
                     }
                 }
+            }
+        }
+
+        #hotKeys { 
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            width: auto;
+            z-index: 6;
+            height: 50px;
+            cursor: pointer;
+
+            .ttButton {
+                width: 50px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgba(12, 12, 12, 0.5);
+                border-radius: 50%;
+                color: $orange;
+                cursor: pointer;
+                transition: 0.2 ease all;
+                color: white;
+                font-size: 18px;
+
+                &:hover {
+                    color: $orange;
+                    transform: rotate(360deg);
+                }
+            }
+
+            .toolTips {
+                list-style: none;
+                padding: 15px 25px;
+                margin-top: 10px;
+                color: white;
+                background-color: rgba(12, 12, 12, 0.5);
+                opacity: 0;
+                pointer-events: none;
+                transition: 0.2s ease all;
+                width: auto;
+
+                table {
+                    margin: 0;
+                }
+
+                tr {
+                    height: 28px;
+                    min-height: 0;
+                    td {
+                        color: white;
+                        height: 28px;
+                        margin: 5px 0;
+                        padding: 0;
+                        border: none;
+
+                        &:first-of-type {
+                            width: 47px;
+                        }
+
+                        .arrow {
+                            position: relative;
+                            display: block;
+                            height: 28px;
+                            width: 47px;
+
+                            &.left {
+                                &:before {
+                                    content: '';
+                                    position: absolute;
+                                    width: 15px;
+                                    height: 0;
+                                    border-bottom: 2px solid white;
+                                    top: 14px;
+                                    left: 1px;
+                                }
+
+                                &:after {
+                                    content: '';
+                                    position: absolute;
+                                    width: 6px;
+                                    height: 6px;
+                                    border-bottom: 2px solid white;
+                                    border-left: 2px solid white;
+                                    transform: rotate(45deg);
+                                    top: 12px;
+                                    left: 0px;
+                                }
+                            }
+
+                            &.right {
+                                &:before {
+                                    content: '';
+                                    position: absolute;
+                                    width: 15px;
+                                    height: 0;
+                                    border-bottom: 2px solid white;
+                                    top: 14px;
+                                    left: 0px;
+                                }
+                                
+                                &:after {
+                                    content: '';
+                                    position: absolute;
+                                    width: 6px;
+                                    height: 6px;
+                                    border-bottom: 2px solid white;
+                                    border-right: 2px solid white;
+                                    transform: rotate(-45deg);
+                                    top: 12px;
+                                    left: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.active {
+                height: auto;
+                .ttButton {
+                    color: $orange;
+                    transform: rotate(360deg);
+                    text-shadow: 0px 0px 10px #fff;
+                }
+
+                .toolTips {
+                    opacity: 1;
+                    pointer-events: all;
+                    width: auto;
+                }
+            }
+            
+            @media screen and (max-width:767px) {
+                display: none !important;
             }
         }
 
@@ -231,9 +415,12 @@ $orange: #FF7714;
             padding-top: 10px;
             margin-top: -30px;
             background: none;
-            position: relative;
+            position: absolute;
+            bottom: 0;
+            left: 0;
             box-sizing: border-box;
             overflow: hidden;
+            z-index: 6;
 
             .progBG {
                 width: 100%;
@@ -448,6 +635,9 @@ $orange: #FF7714;
         }
 
         #nonProg {
+            position: absolute;
+            top: 100%;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -552,13 +742,14 @@ $orange: #FF7714;
                     transition: 0.2s ease color;
                     color: #fff;
                     width: 85px;
+                    height: auto;
                     line-height: 20px;
-                    margin-top: -10px;
                     margin-bottom: 0;
+                    display: block;
 
                     &:after {
                         content: 'Off';
-                        display: block;
+                        display: block !important;
                         width: 100%;
                         font-weight: bold;
                         text-shadow: 0px 0px 10px $orange;
@@ -863,8 +1054,15 @@ $orange: #FF7714;
     }
 
     &.fullscreen {
-        max-width: 100vw;
-        width: 100vw;
+        max-width: 100%;
+        width: 100%;
+        z-index: 10000000000000000000000000000;
+        left: 0;
+        top: 0;
+        margin: 0;
+        height: 100%;
+        background: black !important;
+        position: fixed;
 
         video {
             position: fixed;
@@ -876,15 +1074,41 @@ $orange: #FF7714;
         }
 
         .controlWrapper {
-            max-width: 100vw;
-            width: 100vw;
+            max-width: 100%;
+            width: 100%;
             margin: auto;
             position: fixed;
             bottom: 0;
             left: 0;
 
+            #progressBar {
+                position: relative;
+                margin-top: 0;
+            }
+
+            #nonProg {
+                position: static;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
             .sectionMenu {
                 position: fixed;
+                .sectBtn {
+                    margin-top: 60px;
+                }
+                &.active {
+                    height: calc(100% - 140px);
+
+                    .sectOps {
+                        margin-top: 35px;
+                    }
+                }
+            }
+
+            #hotKeys {
+                position: fixed;
+                top: 60px;
             }
         }
 

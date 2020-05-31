@@ -9,6 +9,31 @@
   transition: 0.2s ease all;
 }
 
+#videoWrapper *::-webkit-media-controls-enclosure {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper *::-webkit-media-controls-panel {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper *::-webkit-media-controls {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper *::-webkit-media-controls-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper *::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 @media screen and (max-width: 767px) {
   #videoWrapper {
     width: calc(110% + 30px);
@@ -32,12 +57,20 @@
 
 #videoWrapper #vidOverlay {
   width: 100%;
-  height: 100%;
+  height: calc(100% + 60px);
   position: absolute;
   background: rgba(0, 0, 0, 0.5);
   top: 0;
   left: 0;
   z-index: 10;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+@media screen and (max-width: 540px) {
+  #videoWrapper #vidOverlay {
+    height: calc(100% + 40px);
+  }
 }
 
 #videoWrapper .overlayPlay {
@@ -138,6 +171,7 @@
   margin: auto;
   -webkit-transition: 0.2s ease all;
   transition: 0.2s ease all;
+  margin-bottom: 100px;
 }
 
 #videoWrapper .controlWrapper .sectionMenu {
@@ -157,12 +191,18 @@
   width: 150px;
   text-align: center;
   padding: 15px 20px;
-  color: #FF7714;
+  color: white;
   background-color: rgba(12, 12, 12, 0.8);
-  margin-top: 10px;
+  margin-top: 20px;
   margin-right: -4px;
   cursor: pointer;
   pointer-events: all;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+#videoWrapper .controlWrapper .sectionMenu .sectBtn:hover {
+  color: #FF7714;
 }
 
 #videoWrapper .controlWrapper .sectionMenu .sectOps {
@@ -182,10 +222,11 @@
 #videoWrapper .controlWrapper .sectionMenu .sectOps li {
   width: 100%;
   overflow: hidden;
-  white-space: nowrap;
   margin-bottom: 15px;
   pointer-events: none;
+  white-space: nowrap;
   font-weight: bold;
+  line-height: 20px;
 }
 
 #videoWrapper .controlWrapper .sectionMenu .sectOps li.active {
@@ -212,9 +253,19 @@
   pointer-events: all;
 }
 
+#videoWrapper .controlWrapper .sectionMenu.active .sectBtn {
+  color: #FF7714;
+  text-shadow: 0px 0px 10px #fff;
+}
+
 #videoWrapper .controlWrapper .sectionMenu.active .sectOps {
   width: 250px;
-  padding: 25px 20px 15px;
+  padding: 25px 20px 40px;
+}
+
+#videoWrapper .controlWrapper .sectionMenu.active .sectOps li {
+  overflow: hidden;
+  white-space: normal;
 }
 
 @media screen and (max-width: 540px) {
@@ -232,7 +283,156 @@
   }
   #videoWrapper .controlWrapper .sectionMenu.active .sectOps {
     width: 175px;
-    padding: 15px 10px 10px;
+    padding: 15px 10px 25px;
+  }
+}
+
+#videoWrapper .controlWrapper #hotKeys {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: white;
+  width: auto;
+  z-index: 6;
+  height: 50px;
+  cursor: pointer;
+}
+
+#videoWrapper .controlWrapper #hotKeys .ttButton {
+  width: 50px;
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: rgba(12, 12, 12, 0.5);
+  border-radius: 50%;
+  color: #FF7714;
+  cursor: pointer;
+  -webkit-transition: 0.2 ease all;
+  transition: 0.2 ease all;
+  color: white;
+  font-size: 18px;
+}
+
+#videoWrapper .controlWrapper #hotKeys .ttButton:hover {
+  color: #FF7714;
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips {
+  list-style: none;
+  padding: 15px 25px;
+  margin-top: 10px;
+  color: white;
+  background-color: rgba(12, 12, 12, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  width: auto;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips table {
+  margin: 0;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips tr {
+  height: 28px;
+  min-height: 0;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips tr td {
+  color: white;
+  height: 28px;
+  margin: 5px 0;
+  padding: 0;
+  border: none;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips tr td:first-of-type {
+  width: 47px;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips tr td .arrow {
+  position: relative;
+  display: block;
+  height: 28px;
+  width: 47px;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips tr td .arrow.left:before {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 0;
+  border-bottom: 2px solid white;
+  top: 14px;
+  left: 1px;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips tr td .arrow.left:after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-bottom: 2px solid white;
+  border-left: 2px solid white;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  top: 12px;
+  left: 0px;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips tr td .arrow.right:before {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 0;
+  border-bottom: 2px solid white;
+  top: 14px;
+  left: 0px;
+}
+
+#videoWrapper .controlWrapper #hotKeys .toolTips tr td .arrow.right:after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  top: 12px;
+  left: 10px;
+}
+
+#videoWrapper .controlWrapper #hotKeys.active {
+  height: auto;
+}
+
+#videoWrapper .controlWrapper #hotKeys.active .ttButton {
+  color: #FF7714;
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+  text-shadow: 0px 0px 10px #fff;
+}
+
+#videoWrapper .controlWrapper #hotKeys.active .toolTips {
+  opacity: 1;
+  pointer-events: all;
+  width: auto;
+}
+
+@media screen and (max-width: 767px) {
+  #videoWrapper .controlWrapper #hotKeys {
+    display: none !important;
   }
 }
 
@@ -243,10 +443,13 @@
   padding-top: 10px;
   margin-top: -30px;
   background: none;
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   overflow: hidden;
+  z-index: 6;
 }
 
 #videoWrapper .controlWrapper #progressBar .progBG {
@@ -473,6 +676,9 @@
 }
 
 #videoWrapper .controlWrapper #nonProg {
+  position: absolute;
+  top: 100%;
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -592,14 +798,15 @@
   transition: 0.2s ease color;
   color: #fff;
   width: 85px;
+  height: auto;
   line-height: 20px;
-  margin-top: -10px;
   margin-bottom: 0;
+  display: block;
 }
 
 #videoWrapper .controlWrapper #nonProg .leftClust #mirror:after {
   content: 'Off';
-  display: block;
+  display: block !important;
   width: 100%;
   font-weight: bold;
   text-shadow: 0px 0px 10px #FF7714;
@@ -872,8 +1079,15 @@
 }
 
 #videoWrapper.fullscreen {
-  max-width: 100vw;
-  width: 100vw;
+  max-width: 100%;
+  width: 100%;
+  z-index: 10000000000000000000000000000;
+  left: 0;
+  top: 0;
+  margin: 0;
+  height: 100%;
+  background: black !important;
+  position: fixed;
 }
 
 #videoWrapper.fullscreen video {
@@ -886,16 +1100,44 @@
 }
 
 #videoWrapper.fullscreen .controlWrapper {
-  max-width: 100vw;
-  width: 100vw;
+  max-width: 100%;
+  width: 100%;
   margin: auto;
   position: fixed;
   bottom: 0;
   left: 0;
 }
 
+#videoWrapper.fullscreen .controlWrapper #progressBar {
+  position: relative;
+  margin-top: 0;
+}
+
+#videoWrapper.fullscreen .controlWrapper #nonProg {
+  position: static;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
 #videoWrapper.fullscreen .controlWrapper .sectionMenu {
   position: fixed;
+}
+
+#videoWrapper.fullscreen .controlWrapper .sectionMenu .sectBtn {
+  margin-top: 60px;
+}
+
+#videoWrapper.fullscreen .controlWrapper .sectionMenu.active {
+  height: calc(100% - 140px);
+}
+
+#videoWrapper.fullscreen .controlWrapper .sectionMenu.active .sectOps {
+  margin-top: 35px;
+}
+
+#videoWrapper.fullscreen .controlWrapper #hotKeys {
+  position: fixed;
+  top: 60px;
 }
 
 #videoWrapper.fullscreen #vidOverlay {
