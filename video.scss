@@ -1,5 +1,18 @@
 $orange: #FF7714;
 
+.fsFreeze {
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.media-controls-container, .media-controls-container * {
+    display: none !important;
+    -webkit-appearance: none;
+}
+
 #videoWrapper {
     max-width: 1080px;
     width: 100%;
@@ -7,31 +20,6 @@ $orange: #FF7714;
     position: relative;
     box-sizing: border-box;
     transition: 0.2s ease all;
-
-    *::-webkit-media-controls-enclosure {
-        display: none !important;
-        -webkit-appearance: none;
-    }
-
-    *::-webkit-media-controls-panel {
-      display: none!important;
-      -webkit-appearance: none;
-    }
-
-    *::-webkit-media-controls {
-        display:none !important;
-        -webkit-appearance: none;
-    }
-    
-    *::-webkit-media-controls-play-button {
-        display: none!important;
-        -webkit-appearance: none;
-    }
-        
-    *::-webkit-media-controls-start-playback-button {
-        display: none!important;
-        -webkit-appearance: none;
-    }
 
     @media screen and (max-width: 767px) {
         width: calc(110% + 30px);
@@ -48,6 +36,41 @@ $orange: #FF7714;
         margin: auto;
         display: block;
         transition: 0.2s ease all;
+
+        &::-webkit-media-controls-enclosure {
+            display: none !important;
+            -webkit-appearance: none;
+        }
+        
+        &::-webkit-media-controls-panel {
+          display: none!important;
+          -webkit-appearance: none;
+        }
+        
+        &::-webkit-media-controls {
+            display:none !important;
+            -webkit-appearance: none;
+        }
+        
+        &::-webkit-media-controls-play-button {
+            display: none!important;
+            -webkit-appearance: none;
+        }
+            
+        &::-webkit-media-controls-start-playback-button {
+            display: none!important;
+            -webkit-appearance: none;
+        }
+
+        .media-controls-container {
+            display: none !important;
+            -webkit-appearance: none; 
+        }
+
+        :host {
+            display: none !important;
+            -webkit-appearance: none; 
+        }
     }
 
     #vidOverlay {
@@ -61,7 +84,7 @@ $orange: #FF7714;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
 
-        @media screen and (max-width:540px) {
+        @media screen and (max-width:570px) {
             height: calc(100% + 40px);
         }
     }
@@ -73,8 +96,6 @@ $orange: #FF7714;
         right: 0;
         bottom: 0;
         margin: auto;
-        width: 100px;
-        height: 100px;
         background: $orange;
         border-radius: 50%;
         display: flex;
@@ -245,7 +266,7 @@ $orange: #FF7714;
             }
             
 
-            @media screen and (max-width:540px) {
+            @media screen and (max-width:570px) {
                 .sectBtn {
                     width: 120px;
                     padding: 10px 5px;
@@ -289,7 +310,6 @@ $orange: #FF7714;
                 align-items: center;
                 background-color: rgba(12, 12, 12, 0.5);
                 border-radius: 50%;
-                color: $orange;
                 cursor: pointer;
                 transition: 0.2 ease all;
                 color: white;
@@ -744,7 +764,7 @@ $orange: #FF7714;
                     width: 85px;
                     height: auto;
                     line-height: 20px;
-                    margin-bottom: 0;
+                    margin: 0;
                     display: block;
 
                     &:after {
@@ -884,6 +904,8 @@ $orange: #FF7714;
             }
 
             .rightClust {
+                display: flex;
+                align-items: center;
                 select {
                     display: none;
                     vertical-align: middle;
@@ -896,7 +918,6 @@ $orange: #FF7714;
                     position: relative;
                     width: auto;
                     cursor: pointer;
-                    vertical-align: middle;
                     margin: 0 20px;
                     vertical-align: top;
 
@@ -928,7 +949,7 @@ $orange: #FF7714;
                         width: 100px;
                         padding: 10px 15px 10px;
                         opacity: 0;
-                        bottom: 0;
+                        bottom: 100%;
                         transition: 0.2s ease all;
                         pointer-events: none;
 
@@ -969,8 +990,8 @@ $orange: #FF7714;
 
                         ul {
                             opacity: 1;
-                            bottom: calc(100%);
                             pointer-events: all;
+                            z-index: 10000;
                         }
                     }
                 }
@@ -984,7 +1005,7 @@ $orange: #FF7714;
                 .leftClust {
                     #mirror {
                         width: 60px;
-                        margin: -10px 0 0 0;
+                        margin: 0;
                     }
                 }
 
@@ -996,7 +1017,7 @@ $orange: #FF7714;
             }
 
             
-            @media screen and (max-width:540px) {
+            @media screen and (max-width:570px) {
                 height: 40px;
                 padding: 5px 10px;
 
@@ -1018,8 +1039,9 @@ $orange: #FF7714;
 
                     
                     .volumeClust {
-                        &:hover input {
-                            width: 50px;
+                        width: 50px;
+                        input {
+                            display: none;
                         }
                     }
                 }
@@ -1067,7 +1089,7 @@ $orange: #FF7714;
         video {
             position: fixed;
             top: 0;
-            bottom: 0;
+            bottom: 60px;
             left: 0;
             right: 0;
             margin: auto;
@@ -1095,20 +1117,20 @@ $orange: #FF7714;
             .sectionMenu {
                 position: fixed;
                 .sectBtn {
-                    margin-top: 60px;
+                    margin-top: 10px;
                 }
                 &.active {
-                    height: calc(100% - 140px);
-
-                    .sectOps {
-                        margin-top: 35px;
+                    height: calc(100% - 60px);
+                
+                    @media screen and (max-width:570px) {
+                        height: calc(100% - 40px);
                     }
                 }
             }
 
             #hotKeys {
                 position: fixed;
-                top: 60px;
+                top: 10px;
             }
         }
 

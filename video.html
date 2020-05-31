@@ -1,9 +1,4 @@
 <!--
-- Z index fixes for quality and speed
-- Full screen screen freeze
-- Full screen stylings
-
-
 Internet Explorer 8 and below do not support the video tag at all. IE 9 will support H.264.
 Firefox 3.5+ supports Ogg Theora. Firefox 4+ supports VP8 (WebM).
 Chrome 3+ supports Ogg Theora. Chrome 6+ supports VP8. H.264 support is about to be dropped.
@@ -52,11 +47,12 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.0.0/screenfull.min.js">
-  </script>
 </head>
 
 <body>
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.0.0/screenfull.min.js">
+  </script>
   <div id="videoWrapper">
     <!--
 
@@ -136,7 +132,7 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
       }
 
       var videoPlayers = [];
-
+      window.currentScroll = 0;
 
       document.addEventListener("DOMContentLoaded", function () {
         videoPlayers.push(new Video(videoData.id, videoData.title, videoData.links, videoData.sections,
@@ -179,6 +175,10 @@ https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473
 
         this.player = this.container.querySelector('video');
         this.player.controls = false;
+        this.player.removeAttribute("controls");
+        this.player.setAttribute('metadata','preload');
+        this.player.setAttribute('webkit-playsinline','true');
+        this.player.setAttribute('playsinline','true');
 
         //Avoid destroying anyone's hearing
         this.player.volume = 0.4;
@@ -571,9 +571,15 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
           if(this.container.classList.contains('fullscreen')) {
             this.container.classList.remove('fullscreen')
             screenfull.exit(this.container);
+            document.querySelector('html,body').classList.remove('fsFreeze'); 
+            document.querySelector('html,body').style.top = '';
+            window.scrollTo(0,window.currentScroll);
           } else {
             this.container.classList.add('fullscreen');
             screenfull.request(this.container);
+            window.currentScroll = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop; 
+            document.querySelector('html,body').classList.add('fsFreeze'); 
+            document.querySelector('html,body').style.top = window.currentScroll+'px';
           }
         };
 
@@ -910,7 +916,10 @@ c-0.55,0-1,0.45-1,1v1c0,0.55,0.45,1,1,1h10c0.55,0,1,0.45,1,1v10c0,0.55,0.45,1,1,
         screenfull.on('change',function(){
           if(!screenfull.isFullscreen) {
             target.container.classList.remove('fullscreen');
-           }
+            document.querySelector('html,body').classList.remove('fsFreeze'); 
+            document.querySelector('html,body').style.top = '';
+            window.scrollTo(0,window.currentScroll);
+          } 
         });
       }
 

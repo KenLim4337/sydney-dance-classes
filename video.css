@@ -1,3 +1,16 @@
+.fsFreeze {
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+
+.media-controls-container, .media-controls-container * {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 #videoWrapper {
   max-width: 1080px;
   width: 100%;
@@ -7,31 +20,6 @@
           box-sizing: border-box;
   -webkit-transition: 0.2s ease all;
   transition: 0.2s ease all;
-}
-
-#videoWrapper *::-webkit-media-controls-enclosure {
-  display: none !important;
-  -webkit-appearance: none;
-}
-
-#videoWrapper *::-webkit-media-controls-panel {
-  display: none !important;
-  -webkit-appearance: none;
-}
-
-#videoWrapper *::-webkit-media-controls {
-  display: none !important;
-  -webkit-appearance: none;
-}
-
-#videoWrapper *::-webkit-media-controls-play-button {
-  display: none !important;
-  -webkit-appearance: none;
-}
-
-#videoWrapper *::-webkit-media-controls-start-playback-button {
-  display: none !important;
-  -webkit-appearance: none;
 }
 
 @media screen and (max-width: 767px) {
@@ -55,6 +43,41 @@
   transition: 0.2s ease all;
 }
 
+#videoWrapper video::-webkit-media-controls-enclosure {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper video::-webkit-media-controls-panel {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper video::-webkit-media-controls {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper video::-webkit-media-controls-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper video .media-controls-container {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+#videoWrapper video :host {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 #videoWrapper #vidOverlay {
   width: 100%;
   height: calc(100% + 60px);
@@ -67,7 +90,7 @@
   border-bottom-right-radius: 10px;
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 570px) {
   #videoWrapper #vidOverlay {
     height: calc(100% + 40px);
   }
@@ -80,8 +103,6 @@
   right: 0;
   bottom: 0;
   margin: auto;
-  width: 100px;
-  height: 100px;
   background: #FF7714;
   border-radius: 50%;
   display: -webkit-box;
@@ -268,7 +289,7 @@
   white-space: normal;
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 570px) {
   #videoWrapper .controlWrapper .sectionMenu .sectBtn {
     width: 120px;
     padding: 10px 5px;
@@ -312,7 +333,6 @@
           align-items: center;
   background-color: rgba(12, 12, 12, 0.5);
   border-radius: 50%;
-  color: #FF7714;
   cursor: pointer;
   -webkit-transition: 0.2 ease all;
   transition: 0.2 ease all;
@@ -800,7 +820,7 @@
   width: 85px;
   height: auto;
   line-height: 20px;
-  margin-bottom: 0;
+  margin: 0;
   display: block;
 }
 
@@ -928,6 +948,15 @@
   opacity: 1;
 }
 
+#videoWrapper .controlWrapper #nonProg .rightClust {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 #videoWrapper .controlWrapper #nonProg .rightClust select {
   display: none;
   vertical-align: middle;
@@ -940,7 +969,6 @@
   position: relative;
   width: auto;
   cursor: pointer;
-  vertical-align: middle;
   margin: 0 20px;
   vertical-align: top;
 }
@@ -975,7 +1003,7 @@
   width: 100px;
   padding: 10px 15px 10px;
   opacity: 0;
-  bottom: 0;
+  bottom: 100%;
   -webkit-transition: 0.2s ease all;
   transition: 0.2s ease all;
   pointer-events: none;
@@ -1016,8 +1044,8 @@
 
 #videoWrapper .controlWrapper #nonProg .rightClust > div:hover ul {
   opacity: 1;
-  bottom: calc(100%);
   pointer-events: all;
+  z-index: 10000;
 }
 
 @media screen and (max-width: 767px) {
@@ -1028,14 +1056,14 @@
   }
   #videoWrapper .controlWrapper #nonProg .leftClust #mirror {
     width: 60px;
-    margin: -10px 0 0 0;
+    margin: 0;
   }
   #videoWrapper .controlWrapper #nonProg .rightClust > div {
     margin: 2px 5px;
   }
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 570px) {
   #videoWrapper .controlWrapper #nonProg {
     height: 40px;
     padding: 5px 10px;
@@ -1052,8 +1080,11 @@
   #videoWrapper .controlWrapper #nonProg .leftClust #mirror:after {
     line-height: 14px;
   }
-  #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust:hover input {
+  #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust {
     width: 50px;
+  }
+  #videoWrapper .controlWrapper #nonProg .leftClust .volumeClust input {
+    display: none;
   }
   #videoWrapper .controlWrapper #nonProg .rightClust > div {
     font-size: 12px;
@@ -1093,7 +1124,7 @@
 #videoWrapper.fullscreen video {
   position: fixed;
   top: 0;
-  bottom: 0;
+  bottom: 60px;
   left: 0;
   right: 0;
   margin: auto;
@@ -1124,20 +1155,22 @@
 }
 
 #videoWrapper.fullscreen .controlWrapper .sectionMenu .sectBtn {
-  margin-top: 60px;
+  margin-top: 10px;
 }
 
 #videoWrapper.fullscreen .controlWrapper .sectionMenu.active {
-  height: calc(100% - 140px);
+  height: calc(100% - 60px);
 }
 
-#videoWrapper.fullscreen .controlWrapper .sectionMenu.active .sectOps {
-  margin-top: 35px;
+@media screen and (max-width: 570px) {
+  #videoWrapper.fullscreen .controlWrapper .sectionMenu.active {
+    height: calc(100% - 40px);
+  }
 }
 
 #videoWrapper.fullscreen .controlWrapper #hotKeys {
   position: fixed;
-  top: 60px;
+  top: 10px;
 }
 
 #videoWrapper.fullscreen #vidOverlay {
